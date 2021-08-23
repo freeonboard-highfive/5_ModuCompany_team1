@@ -1,5 +1,5 @@
 export interface TodoType {
-  id: number | void;
+  id: number;
   taskName: string;
   status: string;
   importance: number;
@@ -18,4 +18,9 @@ export interface ImportanceTypes {
   NOT_IMPORTANT: number;
   IMPORTANT: number;
   VERY_IMPORTANT: number;
+}
+
+export interface UseTodoTypes {
+  createTodos: (todos: TodoType) => void;
+  incrementId: () => number;
 }
