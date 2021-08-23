@@ -6,7 +6,7 @@ export const STATUS: StatusTypes = {
   NOT_STARTED: '시작안함',
 };
 
-export const importance: ImportanceTypes = {
+export const IMPORTANCE: ImportanceTypes = {
   NOT_IMPORTANT: 1,
   IMPORTANT: 2,
   VERY_IMPORTANT: 3,

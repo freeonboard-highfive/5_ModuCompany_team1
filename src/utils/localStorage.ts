@@ -1,16 +1,26 @@
-import { INITAILTODO } from './constants';
+import { INITAILTODO, STORAGE_KEY } from './constants';
 import { TodoType } from './utilTypes';
 
 export const saveLocalStorage = (
-  storageKey: string,
   strorageItem: TodoType[],
+  storageKey: string = STORAGE_KEY,
 ): void => {
   const itemString = JSON.stringify(strorageItem);
   localStorage.setItem(storageKey, itemString);
 };
 
-export const loadLocalStorage = (storageKey: string): TodoType[] | void => {
+export const loadLocalStorage = (
+  storageKey: string = STORAGE_KEY,
+): TodoType[] => {
   const storageItem = localStorage.getItem(storageKey);
-  if (storageItem === null) return saveLocalStorage(storageKey, INITAILTODO);
+  if (storageItem === null) return INITAILTODO;
   return JSON.parse(storageItem);
+};
+
+export const increamentStorageId = (
+  storageKey: string = STORAGE_KEY,
+): number => {
+  const lastTodos = loadLocalStorage(storageKey);
+  const lastTodosId = lastTodos[lastTodos.length - 1].id;
+  return lastTodosId + 1;
 };
