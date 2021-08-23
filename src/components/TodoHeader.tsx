@@ -66,7 +66,6 @@ const TodoHeader: React.FC<HeaderProps> = ({ createTodos, incrementId }) => {
 
 const HeaderContainer = styled.header`
   width: 100%;
-  margin-top: 20px;
 `;
 
 const TodoForm = styled.form`
