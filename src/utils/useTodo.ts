@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { INITAILTODO } from './constants';
+import { INITIALTODO } from './constants';
 import { getTodayDate } from './getTodayDate';
 import {
   increamentStorageId,
@@ -9,7 +9,7 @@ import {
 import { TodoType, UseTodoTypes } from './utilTypes';
 
 export const useTodo = (): UseTodoTypes => {
-  const [todos, setTodos] = useState<TodoType[]>(INITAILTODO);
+  const [todos, setTodos] = useState<TodoType[]>(INITIALTODO);
 
   useEffect(() => {
     setTodos(loadLocalStorage());

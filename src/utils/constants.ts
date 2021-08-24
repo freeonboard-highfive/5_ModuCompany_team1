@@ -18,4 +18,4 @@ export const TODO_KEYS: TodoFormatTypes = {
 
 export const STORAGE_KEY: string = 'toDos';
 
-export const INITAILTODO: [] = [];
+export const INITIALTODO: [] = [];

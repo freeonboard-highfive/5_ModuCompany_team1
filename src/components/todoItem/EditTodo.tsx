@@ -32,23 +32,23 @@ const EditTodo: React.FC<EditTodoProps> = ({
 
   return (
     <>
-      <EidtForm onSubmit={submitEdited}>
-        <EidtInput type="text" onChange={changeTodoText} value={editedText} />
+      <EditForm onSubmit={submitEdited}>
+        <EditInput type="text" onChange={changeTodoText} value={editedText} />
         <EditButton>Edit</EditButton>
-      </EidtForm>
+      </EditForm>
       <CancelButton onClick={toggleEditMode}>Cancel</CancelButton>
     </>
   );
 };
 
-const EidtForm = styled.form`
+const EditForm = styled.form`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 `;
 
-const EidtInput = styled.input`
+const EditInput = styled.input`
   all: unset;
   width: 90%;
   padding-bottom: 4px;
