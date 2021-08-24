@@ -34,16 +34,19 @@ const DragDropList = ({ propList }: dragDropProps) => {
     }
   };
 
-  const handleDragOver = (e: any) => {
+  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
-  const handleDragEnd = (e: any) => {
+  const handleDragDrop = (e: DragEvent<HTMLDivElement>) => {
     localStorage.setItem('List', JSON.stringify(lists));
+  };
+  const handleDragEnd = (e: DragEvent<HTMLDivElement>) => {
+    const getLists = JSON.parse(localStorage.getItem('List') ?? '') ?? lists;
+    setLists(getLists);
     setIsDragging(false);
     dragItem.current = null;
     dragItemNode.current = null;
   };
-
   return (
     <>
       <Container>
@@ -59,6 +62,7 @@ const DragDropList = ({ propList }: dragDropProps) => {
                 }
                 onDragOver={handleDragOver}
                 onDragEnd={handleDragEnd}
+                onDrop={handleDragDrop}
                 isdragging={dragItem.current === index}
               >
                 {item}
