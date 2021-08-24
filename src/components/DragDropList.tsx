@@ -10,25 +10,32 @@ interface dragDropProps {
 const DragDropList = ({ propList }: dragDropProps) => {
   const [lists, setLists] = useState(propList);
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const dragItem = useRef<number | null>(null);
+  const dragItemIndex = useRef<number | null>(null);
   const dragItemNode = useRef<EventTarget | null>(null);
 
   useEffect(() => {
     setLists(propList);
   }, [setLists, propList]);
 
-  const handleDragStart = (e: DragEvent<HTMLDivElement>, item: any) => {
+  const handleDragStart = (e: DragEvent<HTMLDivElement>, itemIndex: number) => {
     dragItemNode.current = e.target;
     e.dataTransfer.effectAllowed = 'move';
-    dragItem.current = item;
+    dragItemIndex.current = itemIndex;
     setTimeout(() => setIsDragging(true), 0);
   };
-  const handleDragEnter = (e: DragEvent<HTMLDivElement>, targetItem: any) => {
+  const handleDragEnter = (
+    e: DragEvent<HTMLDivElement>,
+    targetItem: number,
+  ) => {
     if (dragItemNode.current !== e.target) {
       setLists((oldList) => {
         let newList = oldList;
-        newList.splice(targetItem, 0, newList.splice(dragItem.current!, 1)[0]);
-        dragItem.current = targetItem;
+        newList.splice(
+          targetItem,
+          0,
+          newList.splice(dragItemIndex.current!, 1)[0],
+        );
+        dragItemIndex.current = targetItem;
         return [...newList];
       });
     }
@@ -44,7 +51,7 @@ const DragDropList = ({ propList }: dragDropProps) => {
     const getLists = JSON.parse(localStorage.getItem('List') ?? '') ?? lists;
     setLists(getLists);
     setIsDragging(false);
-    dragItem.current = null;
+    dragItemIndex.current = null;
     dragItemNode.current = null;
   };
   return (
@@ -63,7 +70,7 @@ const DragDropList = ({ propList }: dragDropProps) => {
                 onDragOver={handleDragOver}
                 onDragEnd={handleDragEnd}
                 onDrop={handleDragDrop}
-                isdragging={dragItem.current === index}
+                isdragging={dragItemIndex.current === index}
               >
                 {item}
               </DraggableItem>
