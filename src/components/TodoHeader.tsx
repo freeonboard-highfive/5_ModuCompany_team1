@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { STATUS } from 'src/utils/constants';
 import { TodoType } from 'src/utils/utilTypes';
 import styled from 'styled-components';
-import Arrow from './Arrow';
+import Arrow from '../assets/Arrow';
 
 interface HeaderProps {
   createTodos: (todos: TodoType) => void;

@@ -2,7 +2,7 @@ import { TodoType } from 'src/utils/utilTypes';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import EditTodo from './EditTodo';
-import { FilledStar } from './Stars';
+import { FilledStar } from '../../assets/Stars';
 
 interface TodoItemTypes {
   todo: TodoType;
