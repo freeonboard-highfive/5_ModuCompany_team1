@@ -14,6 +14,7 @@ export const loadLocalStorage = (
 ): TodoType[] => {
   const storageItem = localStorage.getItem(storageKey);
   if (storageItem === null) return INITAILTODO;
+
   return JSON.parse(storageItem);
 };
 

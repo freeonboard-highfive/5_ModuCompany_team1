@@ -1,4 +1,4 @@
-import { StatusTypes, ImportanceTypes } from './utilTypes';
+import { StatusTypes, TodoFormatTypes } from './utilTypes';
 
 export const STATUS: StatusTypes = {
   FINISHED: '완료',
@@ -6,10 +6,14 @@ export const STATUS: StatusTypes = {
   NOT_STARTED: '시작안함',
 };
 
-export const IMPORTANCE: ImportanceTypes = {
-  NOT_IMPORTANT: 1,
-  IMPORTANT: 2,
-  VERY_IMPORTANT: 3,
+export const TODO_KEYS: TodoFormatTypes = {
+  id: 'id',
+  taskName: 'taskName',
+  status: 'status',
+  isImportant: 'isImportant',
+  goalDate: 'goalDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
 };
 
 export const STORAGE_KEY: string = 'toDos';

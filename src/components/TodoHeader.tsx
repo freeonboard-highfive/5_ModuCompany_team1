@@ -1,5 +1,6 @@
+import { getTodayDate } from 'src/utils/getTodayDate';
 import React, { useState } from 'react';
-import { IMPORTANCE, STATUS } from 'src/utils/constants';
+import { STATUS } from 'src/utils/constants';
 import { TodoType } from 'src/utils/utilTypes';
 import styled from 'styled-components';
 import Arrow from './Arrow';
@@ -12,17 +13,8 @@ interface HeaderProps {
 const TodoHeader: React.FC<HeaderProps> = ({ createTodos, incrementId }) => {
   const [todoText, setTodoText] = useState<string>('');
 
-  const getTodayDate = (): string => {
-    const date = new Date();
-    const y = date.getFullYear();
-    const m = date.getMonth() + 1;
-    const d = date.getDate();
-    const dateString = `${y}-${m < 10 ? `0${m}` : m}-${d < 10 ? `0${d}` : d}`;
-    return dateString;
-  };
-
   const todoTextChange: React.ChangeEventHandler<HTMLInputElement> = (
-    event,
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const {
       target: { value },
@@ -31,7 +23,7 @@ const TodoHeader: React.FC<HeaderProps> = ({ createTodos, incrementId }) => {
   };
 
   const submitTodos: React.FormEventHandler<HTMLFormElement> = (
-    event,
+    event: React.FormEvent<HTMLFormElement>,
   ): void => {
     event.preventDefault();
 
@@ -39,7 +31,7 @@ const TodoHeader: React.FC<HeaderProps> = ({ createTodos, incrementId }) => {
       id: incrementId(),
       taskName: todoText,
       status: STATUS.NOT_STARTED,
-      importance: IMPORTANCE.NOT_IMPORTANT,
+      isImportant: false,
       goalDate: '2021-08-31',
       createdAt: getTodayDate(),
       updatedAt: getTodayDate(),
