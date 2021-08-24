@@ -17,18 +17,6 @@ const TodoItem: React.FC<TodoItemTypes> = ({ todo, deleteTodo, editTodo }) => {
     setEditMode(!editMode);
   };
 
-  const onClickTodoBtn = (event: React.MouseEvent<HTMLButtonElement>): void => {
-    const {
-      currentTarget: { name },
-    } = event;
-    switch (name) {
-      case 'edit':
-        return toggleEditMode();
-      case 'delete':
-        return deleteTodo(todo.id);
-    }
-  };
-
   return (
     <Todo>
       <TodoContent>
@@ -45,14 +33,13 @@ const TodoItem: React.FC<TodoItemTypes> = ({ todo, deleteTodo, editTodo }) => {
               <TodoText>{todo.taskName}</TodoText>
             </TodoTextBox>
             <TodoButtonBox>
-              <TodoButton className="edit" name="edit" onClick={onClickTodoBtn}>
+              <TodoButton className="edit" onClick={() => toggleEditMode()}>
                 E
               </TodoButton>
               <Divider />
               <TodoButton
                 className="delete"
-                name="delete"
-                onClick={onClickTodoBtn}
+                onClick={() => deleteTodo(todo.id)}
               >
                 D
               </TodoButton>
