@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { INITIALTODO } from './constants';
-import { getTodayDate } from './getTodayDate';
+import { INITIALTODO } from 'src/utils/constants';
+import { getTodayDate } from 'src/utils/getTodayDate';
 import {
   increamentStorageId,
   loadLocalStorage,
   saveLocalStorage,
-} from './localStorage';
-import { TodoType, UseTodoTypes } from './utilTypes';
+} from 'src/utils/localStorage';
+import { TodoType, UseTodoTypes } from 'src/utils/utilTypes';
 
 export const useTodo = (): UseTodoTypes => {
   const [todos, setTodos] = useState<TodoType[]>(INITIALTODO);
