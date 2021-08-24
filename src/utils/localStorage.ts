@@ -21,6 +21,7 @@ export const increamentStorageId = (
   storageKey: string = STORAGE_KEY,
 ): number => {
   const lastTodos = loadLocalStorage(storageKey);
+  if (!lastTodos.length) return 1;
   const lastTodosId = lastTodos[lastTodos.length - 1].id;
   return lastTodosId + 1;
 };
