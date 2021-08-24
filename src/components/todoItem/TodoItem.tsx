@@ -1,0 +1,137 @@
+import { TodoType } from 'src/utils/utilTypes';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import EditTodo from './EditTodo';
+import { FilledStar } from './Stars';
+
+interface TodoItemTypes {
+  todo: TodoType;
+  deleteTodo: (id: number) => void;
+  editTodo: (id: number, name: string, value: string | boolean) => void;
+}
+
+const TodoItem: React.FC<TodoItemTypes> = ({ todo, deleteTodo, editTodo }) => {
+  const [editMode, setEditMode] = useState<boolean>(false);
+
+  const toggleEditMode = (): void => {
+    setEditMode(!editMode);
+  };
+
+  const onClickTodoBtn = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    const {
+      currentTarget: { name },
+    } = event;
+    switch (name) {
+      case 'edit':
+        return toggleEditMode();
+      case 'delete':
+        return deleteTodo(todo.id);
+    }
+  };
+
+  return (
+    <Todo>
+      <TodoContent>
+        {editMode ? (
+          <EditTodo
+            toggleEditMode={toggleEditMode}
+            editTodo={editTodo}
+            todo={todo}
+          />
+        ) : (
+          <>
+            <TodoTextBox>
+              <FilledStar />
+              <TodoText>{todo.taskName}</TodoText>
+            </TodoTextBox>
+            <TodoButtonBox>
+              <TodoButton className="edit" name="edit" onClick={onClickTodoBtn}>
+                E
+              </TodoButton>
+              <Divider />
+              <TodoButton
+                className="delete"
+                name="delete"
+                onClick={onClickTodoBtn}
+              >
+                D
+              </TodoButton>
+            </TodoButtonBox>
+          </>
+        )}
+      </TodoContent>
+      <ImportanceBox>ChangeImportance</ImportanceBox>
+    </Todo>
+  );
+};
+
+const Todo = styled.li`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  padding: 10px;
+  width: 100%;
+`;
+
+const TodoContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 60%;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
+
+  & svg {
+    fill: black;
+  }
+`;
+
+const TodoTextBox = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const TodoText = styled.span`
+  font-size: 16px;
+  margin-left: 35px;
+  margin-top: 5px;
+`;
+
+const TodoButtonBox = styled.div`
+  display: flex;
+  align-items: center;
+  & .edit {
+    color: #119955;
+  }
+
+  & .delete {
+    color: #ff0000;
+  }
+`;
+
+const Divider = styled.div`
+  height: 14px;
+  border-left: 1px solid black;
+  margin: 0px 10px 5px;
+`;
+
+const TodoButton = styled.button`
+  all: unset;
+  font-size: 16px;
+  padding: 5px;
+  cursor: pointer;
+`;
+
+const ImportanceBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15%;
+  height: 46px;
+  border-radius: 10px;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
+`;
+
+export default React.memo(TodoItem);

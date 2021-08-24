@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { INITAILTODO } from './constants';
+import { getTodayDate } from './getTodayDate';
 import {
   increamentStorageId,
   loadLocalStorage,
@@ -27,5 +28,27 @@ export const useTodo = (): UseTodoTypes => {
     setTodos((prev) => prev.concat(todos));
   };
 
-  return { createTodos, incrementId };
+  const deleteTodo = (id: number): void => {
+    const deletedTodo = todos.filter((todo) => id !== todo.id);
+    setTodos(deletedTodo);
+  };
+
+  const editTodo = (
+    id: number,
+    name: string,
+    value: string | boolean,
+  ): void => {
+    const editedTodo = todos.map((todo) =>
+      id !== todo.id
+        ? todo
+        : {
+            ...todo,
+            [name]: value,
+            updatedAt: getTodayDate(),
+          },
+    );
+    setTodos(editedTodo);
+  };
+
+  return { createTodos, incrementId, deleteTodo, editTodo, todos };
 };
