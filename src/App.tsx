@@ -1,11 +1,18 @@
-import Status from "./components/status/Status";
+import styled from 'styled-components';
+import TodoList from './pages/TodoList';
 
 function App() {
   return (
-    <>
-      <Status />
-    </>
+    <TodoContainer>
+      <TodoList />
+    </TodoContainer>
   );
 }
+
+const TodoContainer = styled.div`
+  width: 1080px;
+  margin: 0 auto;
+  padding-top: 20px;
+`;
 
 export default App;
