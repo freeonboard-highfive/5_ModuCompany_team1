@@ -83,31 +83,25 @@ const Filter: React.FC<TodoItemTypes> = ({_todos, deleteTodo, editTodo}) => {
   }
 
   return (
-    <div>
+    <>
       <SelectBoxes>
-      <div>
         <SelectBox name="Status" id="Status" onChange={onChangeStatus}>
-          <option selected>Status</option>
-          <option value={Status.FINISHED}>완료</option>
-          <option value={Status.ONGOING}>진행 중</option>
-          <option value={Status.NOT_STARTED}>시작 안함</option>
+          <option selected hidden>Status</option>
+          <option value={Status.FINISHED}>Finished</option>
+          <option value={Status.ONGOING}>Ongoing</option>
+          <option value={Status.NOT_STARTED}>Not Started</option>
         </SelectBox>
-      </div>
-      <div>
         <SelectBox name="Date" id="Date" onChange={sortDateType}>
-        <option selected>Date</option>
-          <option value={DateType.UpdatedAt}>최신 업데이트 순</option>
-          <option value={DateType.CreatedAt}>최신 생성 순</option>
-          <option value={DateType.GoalDate}>임박 순</option>
+        <option selected hidden>Date</option>
+          <option value={DateType.UpdatedAt}>latest update order</option>
+          <option value={DateType.CreatedAt}>latest creation order</option>
+          <option value={DateType.GoalDate}>close to the deadline</option>
         </SelectBox>
-      </div>
-      <div>
         <SelectBox name="Importance" id="Importance" onChange={onChangeImportance}>
-          <option selected>Importance</option>
-          <option value={IMPORTANCE.true}>중요 ★</option>
-          <option value={IMPORTANCE.false}>안중요 ☆</option>
+          <option selected hidden>Importance</option>
+          <option value={IMPORTANCE.true}>Important ★</option>
+          <option value={IMPORTANCE.false}>Not important ☆</option>
         </SelectBox>
-      </div>
       </SelectBoxes>
 
       <TodoLists>
@@ -134,7 +128,7 @@ const Filter: React.FC<TodoItemTypes> = ({_todos, deleteTodo, editTodo}) => {
         })
         }
         </TodoLists>
-    </div>
+    </>
   );
 }
 export default Filter
@@ -157,9 +151,9 @@ const SelectBox = styled.select`
   &:focus {
     outline: none;
   }
-  width: 200px;
-  padding: 17px 26px 15px 20px;
-  border: 0px solid lightgray;
+  width: 240px;
+  padding: 17px 20px 16px 20px;
+  border: 1px solid lightgray;
   border-radius: 50px;
   font-size: 19px;
   color: #646363;
