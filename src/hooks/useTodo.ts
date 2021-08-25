@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { INITIALTODO } from 'src/utils/constants';
 import { getTodayDate } from 'src/utils/getTodayDate';
 import {
-  increamentStorageId,
+  incrementStorageId,
   loadLocalStorage,
   saveLocalStorage,
 } from 'src/utils/localStorage';
@@ -21,7 +21,7 @@ export const useTodo = (): UseTodoTypes => {
 
   const incrementId = (): number => {
     if (!todos.length) return 1;
-    return increamentStorageId();
+    return incrementStorageId();
   };
 
   const createTodos = (todos: TodoType): void => {

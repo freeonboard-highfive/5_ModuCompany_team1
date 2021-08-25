@@ -18,7 +18,7 @@ export const loadLocalStorage = (
   return JSON.parse(storageItem);
 };
 
-export const increamentStorageId = (
+export const incrementStorageId = (
   storageKey: string = STORAGE_KEY,
 ): number => {
   const lastTodos = loadLocalStorage(storageKey);
