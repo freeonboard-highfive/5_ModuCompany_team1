@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import EditTodo from './EditTodo';
 import { FilledStar } from '../../assets/Stars';
 import { useDispatch } from 'src/utils/context';
+import Status from '../status/Status';
 
 interface TodoItemTypes {
   todo: TodoType;
@@ -38,6 +39,7 @@ const TodoItem: React.FC<TodoItemTypes> = ({ todo }) => {
       >
         D
       </TodoButton>
+      <Status todo={todo} />
     </Todo>
   );
 };
@@ -75,13 +77,15 @@ const TodoTextBox = styled.div`
 `;
 
 const TextBox = styled.div`
+  display: flex;
+  align-items: center;
   width: 100%;
 `;
 
 const TodoText = styled.span`
   font-size: 17px;
   margin-left: 35px;
-  margin-top: 5px;
+  margin-top: 5px; ;
 `;
 
 const TodoButton = styled.button`

@@ -1,9 +1,10 @@
 import { StatusTypes, TodoFormatTypes } from './utilTypes';
 
 export const STATUS: StatusTypes = {
-  FINISHED: '완료',
-  ONGOING: '진행중',
-  NOT_STARTED: '시작안함',
+  FINISHED: 'Done',
+  ONGOING: 'Doing',
+  NOT_STARTED: 'Todo',
+  INITIAL: 'Status'
 };
 
 export const TODO_KEYS: TodoFormatTypes = {

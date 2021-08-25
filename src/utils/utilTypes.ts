@@ -24,13 +24,7 @@ export interface StatusTypes {
   FINISHED: string;
   ONGOING: string;
   NOT_STARTED: string;
-}
-
-export interface UseTodoTypes {
-  createTodos: (todoText: string) => void;
-  deleteTodo: (id: number) => void;
-  editTodo: (id: number, name: string, value: string | boolean) => void;
-  todos: TodoType[];
+  INITIAL: string;
 }
 
 export interface UseDragListTypes {
