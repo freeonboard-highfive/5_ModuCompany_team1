@@ -1,5 +1,5 @@
 import { TODO_KEYS } from 'src/utils/constants';
-import { TodoType } from '@src/utils/utilTypes';
+import { TodoType } from 'src/utils/utilTypes';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
