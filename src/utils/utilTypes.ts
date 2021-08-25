@@ -22,6 +22,7 @@ export interface StatusTypes {
   FINISHED: string;
   ONGOING: string;
   NOT_STARTED: string;
+  INITIAL: string;
 }
 
 export interface UseTodoTypes {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { INITIALTODO, STATUS } from './constants';
+import { INITIALTODO } from './constants';
 import { getTodayDate } from './getTodayDate';
 import {
   increamentStorageId,
@@ -8,15 +8,8 @@ import {
 } from './localStorage';
 import { TodoType, UseTodoTypes } from './utilTypes';
 
-enum Status {
-  FINISHED = 'Done',
-  ONGOING = 'Doing',
-  NOT_STARTED = 'Todo'
-}
-
 export const useTodo = (): UseTodoTypes => {
   const [todos, setTodos] = useState<TodoType[]>(INITIALTODO);
-  const [state, setState] = useState<Status | string>('')
 
   useEffect(() => {
     setTodos(loadLocalStorage());
