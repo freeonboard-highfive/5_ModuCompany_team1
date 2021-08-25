@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled from 'styled-components';
+import styled, { css }from 'styled-components';
 import { TodoType } from 'src/utils/utilTypes';
 
 
@@ -19,7 +19,7 @@ const Status = ({ updateStatus, todo }: TodoItemProps) => {
     }
 
     return (
-        <Select value={value} onChange={handleChange}>
+        <Select status={value} onChange={handleChange}>
             {selectList.map((item) => (
               <Options value={item} key={item}>{item}</Options>
             ))}
@@ -27,7 +27,7 @@ const Status = ({ updateStatus, todo }: TodoItemProps) => {
     )
 }
 
-const Select = styled.select`
+const Select = styled.select<{status: string}>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,6 +37,7 @@ const Select = styled.select`
   border-radius: 10px;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
   padding: 5px 10px;
+  ${(props) => props.status === 'Done' && css`color: #ddd`};
 `;
 
 const Options = styled.option``;
