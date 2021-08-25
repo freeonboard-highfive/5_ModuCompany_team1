@@ -33,13 +33,12 @@ const TodoItem: React.FC<TodoItemTypes> = ({ todo }) => {
         )}
       </TodoContent>
       <DateBox>Date</DateBox>
-      <ImportanceBox>ChangeState</ImportanceBox>
+      <Status todo={todo} />
       <TodoButton
         onClick={(): void => dispatch({ type: 'DELETE', id: todo.id })}
       >
         D
       </TodoButton>
-      <Status todo={todo} />
     </Todo>
   );
 };
@@ -61,7 +60,7 @@ const TodoContent = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 60%;
-  padding: 15px;
+  padding: 5px;
   border-radius: 10px;
 
   & svg {
@@ -73,7 +72,7 @@ const TodoTextBox = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 2.5px 0px;
+  padding: 11px 0px;
 `;
 
 const TextBox = styled.div`
@@ -97,15 +96,6 @@ const TodoButton = styled.button`
 `;
 
 const DateBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 15%;
-  height: 56px;
-  border-radius: 10px;
-`;
-
-const ImportanceBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;

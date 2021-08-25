@@ -13,14 +13,10 @@ const EditTodo: React.FC<EditTodoProps> = ({ toggleEditMode, todo }) => {
   const [editedText, setEditedText] = useState<string>('');
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const closeEdit = (event: KeyboardEvent): void => {
-      if (event.key !== 'Escape') return;
-      toggleEditMode();
-    };
-    window.addEventListener('keydown', closeEdit);
-    return () => window.removeEventListener('keydown', closeEdit);
-  }, [toggleEditMode]);
+  const closeEdit = (event: React.KeyboardEvent): void => {
+    if (event.key !== 'Escape') return;
+    toggleEditMode();
+  };
 
   const changeTodoText = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const {
@@ -44,7 +40,12 @@ const EditTodo: React.FC<EditTodoProps> = ({ toggleEditMode, todo }) => {
 
   return (
     <EditForm onSubmit={submitEdited}>
-      <EditInput type="text" onChange={changeTodoText} value={editedText} />
+      <EditInput
+        type="text"
+        onChange={changeTodoText}
+        value={editedText}
+        onKeyDown={closeEdit}
+      />
     </EditForm>
   );
 };
@@ -53,18 +54,20 @@ const EditForm = styled.form`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 3px;
   width: 100%;
 `;
 
 const EditInput = styled.input`
   all: unset;
   width: 90%;
-  padding-bottom: 4px;
+  padding: 3px 0px 14px 0px;
+  margin-left: 10px;
   font-size: 17px;
-  border-bottom: 2px solid transparent;
+  border-bottom: 2px solid black;
 
   &:focus {
-    border-color: black;
+    border-color: #3e96ff;
     transition: border-color 0.5s ease-in-out;
   }
 `;
