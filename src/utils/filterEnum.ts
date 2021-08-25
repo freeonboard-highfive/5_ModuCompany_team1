@@ -1,7 +1,7 @@
 export enum Status {
-  FINISHED = '완료',
-  ONGOING ='진행중',
-  NOT_STARTED = '시작안함'
+  FINISHED = 'Done',
+  ONGOING = 'Doing',
+  NOT_STARTED = 'Todo'
 }
 
 export enum DateType {

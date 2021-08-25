@@ -24,6 +24,7 @@ export interface StatusTypes {
   FINISHED: string;
   ONGOING: string;
   NOT_STARTED: string;
+  INITIAL: string;
 }
 
 export interface UseTodoTypes {
@@ -31,6 +32,7 @@ export interface UseTodoTypes {
   incrementId: () => number;
   deleteTodo: (id: number) => void;
   editTodo: (id: number, name: string, value: string | boolean) => void;
+  updateStatus: (id: number, e: React.ChangeEvent<HTMLSelectElement>) => void;
   todos: TodoType[];
 }
 

@@ -50,5 +50,11 @@ export const useTodo = (): UseTodoTypes => {
     setTodos(editedTodo);
   };
 
-  return { createTodos, incrementId, deleteTodo, editTodo, todos };
+  const updateStatus = (id: number, e: React.ChangeEvent<HTMLSelectElement>): void => {
+    const targetStatus: string = e.target.value;
+    const updated = todos.map((todo) => todo.id !== id ? todo : {...todo, status: targetStatus});
+    setTodos(updated)
+  }
+
+  return { createTodos, incrementId, deleteTodo, editTodo, todos, updateStatus };
 };

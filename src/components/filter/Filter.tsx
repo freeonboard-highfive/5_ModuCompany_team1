@@ -9,9 +9,10 @@ interface TodoItemTypes {
   _todos: TodoType[];
   deleteTodo: (id: number) => void;
   editTodo: (id: number, name: string, value: string | boolean) => void;
+  updateStatus: (id: number, e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const Filter: React.FC<TodoItemTypes> = ({_todos, deleteTodo, editTodo}) => {
+const Filter: React.FC<TodoItemTypes> = ({_todos, deleteTodo, editTodo, updateStatus}) => {
   // const [todos, setTodos] = useState<TodoType[]>([]);
   const [modifiedTodos, setModifiedTodos] = useState<TodoType[]>([])
   const [status, setStatus] = useState<Status | string>("");
@@ -119,6 +120,7 @@ const Filter: React.FC<TodoItemTypes> = ({_todos, deleteTodo, editTodo}) => {
             todo={todo}
             deleteTodo={deleteTodo}
             editTodo={editTodo}
+            updateStatus={updateStatus}
           />
           )
         }):
@@ -140,6 +142,7 @@ const Filter: React.FC<TodoItemTypes> = ({_todos, deleteTodo, editTodo}) => {
                 todo={todo}
                 deleteTodo={deleteTodo}
                 editTodo={editTodo}
+                updateStatus={updateStatus}
               />
             </TodoItemContainer>
           )

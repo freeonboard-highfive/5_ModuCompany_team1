@@ -5,11 +5,11 @@ import { useTodo } from 'src/hooks/useTodo';
 
 
 const TodoList: React.FC = () => {
-  const { todos, createTodos, incrementId, deleteTodo, editTodo } = useTodo();
+  const { todos, createTodos, incrementId, deleteTodo, editTodo, updateStatus } = useTodo();
   return (
     <>
       <TodoHeader createTodos={createTodos} incrementId={incrementId} />
-      <Filter _todos={todos} deleteTodo={deleteTodo} editTodo={editTodo}/>
+      <Filter _todos={todos} deleteTodo={deleteTodo} editTodo={editTodo} updateStatus={updateStatus}/>
     </>
   );
 };

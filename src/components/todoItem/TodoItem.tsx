@@ -1,16 +1,18 @@
 import { TodoType } from 'src/utils/utilTypes';
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import EditTodo from './EditTodo';
 import { FilledStar } from '../../assets/Stars';
+import Status from '../status/Status';
 
 interface TodoItemTypes {
   todo: TodoType;
   deleteTodo: (id: number) => void;
   editTodo: (id: number, name: string, value: string | boolean) => void;
+  updateStatus: (id: number, e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const TodoItem: React.FC<TodoItemTypes> = ({ todo, deleteTodo, editTodo }) => {
+const TodoItem: React.FC<TodoItemTypes> = ({ todo, deleteTodo, editTodo, updateStatus }) => {
   const [editMode, setEditMode] = useState<boolean>(false);
 
   const toggleEditMode = (): void => {
@@ -47,7 +49,7 @@ const TodoItem: React.FC<TodoItemTypes> = ({ todo, deleteTodo, editTodo }) => {
           </>
         )}
       </TodoContent>
-      <ImportanceBox>ChangeImportance</ImportanceBox>
+      <Status todo={todo} updateStatus={updateStatus} />
     </Todo>
   );
 };
@@ -83,7 +85,7 @@ const TodoTextBox = styled.div`
 const TodoText = styled.span`
   font-size: 16px;
   margin-left: 35px;
-  margin-top: 5px;
+  margin-top: 5px;;
 `;
 
 const TodoButtonBox = styled.div`
@@ -109,16 +111,6 @@ const TodoButton = styled.button`
   font-size: 16px;
   padding: 5px;
   cursor: pointer;
-`;
-
-const ImportanceBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 15%;
-  height: 46px;
-  border-radius: 10px;
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
 `;
 
 export default React.memo(TodoItem);
