@@ -65,6 +65,7 @@ const TodoItemContainer = styled.li<{ isdragging: boolean }>`
   margin-top: 15px;
   padding: 10px;
   width: 100%;
+  border-radius: 10px;
   background-color: ${(props) => props.isdragging && 'lightgray'};
 
   :not(:last-of-type) {

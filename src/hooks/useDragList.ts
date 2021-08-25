@@ -1,10 +1,10 @@
-import { TodoType } from 'src/utils/utilTypes';
+import { TodoType, UseDragListTypes } from 'src/utils/utilTypes';
 import { DragEvent, useRef } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { loadLocalStorage, saveLocalStorage } from 'src/utils/localStorage';
 
-const useDragList = (propList: TodoType[]) => {
+const useDragList = (propList: TodoType[]): UseDragListTypes => {
   const [lists, setLists] = useState(propList);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const dragItemIndex = useRef<number | null>(null);
@@ -14,14 +14,14 @@ const useDragList = (propList: TodoType[]) => {
     setLists(propList);
   }, [setLists, propList]);
 
-  const handleDragStart = (e: DragEvent<HTMLLIElement>, itemIndex: number) => {
+  const handleDragStart = (e: DragEvent<HTMLElement>, itemIndex: number) => {
     dragItemNode.current = e.target;
     e.dataTransfer.effectAllowed = 'move';
     dragItemIndex.current = itemIndex;
     setTimeout(() => setIsDragging(true), 0);
   };
 
-  const handleDragEnter = (e: DragEvent<HTMLLIElement>, targetItem: number) => {
+  const handleDragEnter = (e: DragEvent<HTMLElement>, targetItem: number) => {
     if (dragItemNode.current !== e.target) {
       let newList = [...lists];
       newList.splice(
@@ -34,15 +34,15 @@ const useDragList = (propList: TodoType[]) => {
     }
   };
 
-  const handleDragOver = (e: DragEvent<HTMLLIElement>) => {
+  const handleDragOver = (e: DragEvent<HTMLElement>) => {
     e.preventDefault();
   };
 
-  const handleDragDrop = (e: DragEvent<HTMLLIElement>) => {
+  const handleDragDrop = (e: DragEvent<HTMLElement>) => {
     saveLocalStorage(lists);
   };
 
-  const handleDragEnd = (e: DragEvent<HTMLLIElement>) => {
+  const handleDragEnd = (e: DragEvent<HTMLElement>) => {
     const getLists = loadLocalStorage();
     setLists(getLists);
     setIsDragging(false);
