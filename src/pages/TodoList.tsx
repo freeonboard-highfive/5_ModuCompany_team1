@@ -1,15 +1,30 @@
-import React from 'react';
-import TodoHeader from 'src/components/TodoHeader';
+import React, { useCallback, useEffect } from 'react';
+import TodoHeader from 'src/components/TodoHeader/TodoHeader';
+import { useDispatch, useTodoState } from 'src/utils/context';
+import { loadLocalStorage, saveLocalStorage } from 'src/utils/localStorage';
 import Filter from 'src/components/filter/Filter';
-import { useTodo } from 'src/hooks/useTodo';
-
 
 const TodoList: React.FC = () => {
-  const { todos, createTodos, incrementId, deleteTodo, editTodo, updateStatus } = useTodo();
+  const todoState = useTodoState();
+  const dispatch = useDispatch();
+
+  const loadData = useCallback((): void => {
+    const loadedTodos = loadLocalStorage();
+    dispatch({ type: 'LOAD', todoState: loadedTodos });
+  }, [dispatch]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  useEffect(() => {
+    saveLocalStorage(todoState);
+  }, [todoState]);
+
   return (
     <>
-      <TodoHeader createTodos={createTodos} incrementId={incrementId} />
-      <Filter _todos={todos} deleteTodo={deleteTodo} editTodo={editTodo} updateStatus={updateStatus}/>
+      <TodoHeader />
+      <Filter _todos={todoState} />
     </>
   );
 };

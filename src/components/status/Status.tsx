@@ -1,33 +1,41 @@
-import React, { useState } from 'react'
-import styled, { css }from 'styled-components';
+import React, { useState } from 'react';
+import styled, { css } from 'styled-components';
 import { TodoType } from 'src/utils/utilTypes';
-
-
+import { useDispatch } from 'src/utils/context';
+import { TODO_KEYS } from 'src/utils/constants';
 
 interface TodoItemProps {
-  updateStatus: (id: number, e: React.ChangeEvent<HTMLSelectElement>) => void;
   todo: TodoType;
 }
 
-const Status = ({ updateStatus, todo }: TodoItemProps) => {
-    const selectList = ['Status', 'Todo', 'Doing', 'Done'];
-    const [value, setValue] = useState('')
+const Status = ({ todo }: TodoItemProps) => {
+  const selectList = ['Todo', 'Doing', 'Done'];
+  const [value, setValue] = useState('');
+  const dispatch = useDispatch();
 
-    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-        updateStatus(todo.id, e)
-        setValue(e.target.value);
-    }
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    const {
+      target: { value },
+    } = event;
+    dispatch({ type: 'EDIT', id: todo.id, name: TODO_KEYS.status, value });
+    setValue(value);
+  };
 
-    return (
-        <Select status={value} onChange={handleChange}>
-            {selectList.map((item) => (
-              <Options value={item} key={item}>{item}</Options>
-            ))}
-        </Select>
-    )
-}
+  return (
+    <Select status={value} onChange={handleChange}>
+      <Options defaultValue={'Status'} hidden>
+        {todo.status}
+      </Options>
+      {selectList.map((item) => (
+        <Options value={item} key={item}>
+          {item}
+        </Options>
+      ))}
+    </Select>
+  );
+};
 
-const Select = styled.select<{status: string}>`
+const Select = styled.select<{ status: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,9 +45,13 @@ const Select = styled.select<{status: string}>`
   border-radius: 10px;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
   padding: 5px 10px;
-  ${(props) => props.status === 'Done' && css`color: #ddd`};
+  ${(props) =>
+    props.status === 'Done' &&
+    css`
+      color: #ddd;
+    `};
 `;
 
 const Options = styled.option``;
 
-export default Status
+export default Status;

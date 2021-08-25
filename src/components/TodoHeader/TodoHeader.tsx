@@ -1,21 +1,15 @@
-import { getTodayDate } from 'src/utils/getTodayDate';
+import { useDispatch } from 'src/utils/context';
 import React, { useState } from 'react';
-import { STATUS } from 'src/utils/constants';
-import { TodoType } from 'src/utils/utilTypes';
 import styled from 'styled-components';
-import Arrow from '../assets/Arrow';
+import Arrow from '../../assets/Arrow';
 
-interface HeaderProps {
-  createTodos: (todos: TodoType) => void;
-  incrementId: () => number;
-}
-
-const TodoHeader: React.FC<HeaderProps> = ({ createTodos, incrementId }) => {
+const TodoHeader: React.FC = () => {
   const [todoText, setTodoText] = useState<string>('');
+  const dispatch = useDispatch();
 
   const todoTextChange: React.ChangeEventHandler<HTMLInputElement> = (
     event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  ): void => {
     const {
       target: { value },
     } = event;
@@ -27,15 +21,7 @@ const TodoHeader: React.FC<HeaderProps> = ({ createTodos, incrementId }) => {
   ): void => {
     event.preventDefault();
 
-    createTodos({
-      id: incrementId(),
-      taskName: todoText,
-      status: STATUS.INITIAL,
-      isImportant: false,
-      goalDate: '2021-08-31',
-      createdAt: getTodayDate(),
-      updatedAt: getTodayDate(),
-    });
+    dispatch({ type: 'ADD', text: todoText });
     setTodoText('');
   };
 
@@ -57,7 +43,11 @@ const TodoHeader: React.FC<HeaderProps> = ({ createTodos, incrementId }) => {
 };
 
 const HeaderContainer = styled.header`
-  width: 100%;
+  width: inherit;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 const TodoForm = styled.form`
@@ -104,4 +94,4 @@ const TodoSubmit = styled.button`
   }
 `;
 
-export default TodoHeader;
+export default React.memo(TodoHeader);

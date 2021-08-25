@@ -27,15 +27,6 @@ export interface StatusTypes {
   INITIAL: string;
 }
 
-export interface UseTodoTypes {
-  createTodos: (todos: TodoType) => void;
-  incrementId: () => number;
-  deleteTodo: (id: number) => void;
-  editTodo: (id: number, name: string, value: string | boolean) => void;
-  updateStatus: (id: number, e: React.ChangeEvent<HTMLSelectElement>) => void;
-  todos: TodoType[];
-}
-
 export interface UseDragListTypes {
   lists: TodoType[];
   isDragging: boolean;

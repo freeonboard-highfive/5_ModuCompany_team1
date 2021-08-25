@@ -12,7 +12,6 @@ function App() {
 const TodoContainer = styled.div`
   width: 1080px;
   margin: 0 auto;
-  padding-top: 20px;
 `;
 
 export default App;
