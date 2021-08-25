@@ -1,12 +1,14 @@
 import TodoItem from 'src/components/todoItem/TodoItem';
-import React from 'react';
-import TodoHeader from 'src/components/TodoHeader';
+import React, { useCallback, useEffect } from 'react';
+import TodoHeader from 'src/components/TodoHeader/TodoHeader';
 import styled from 'styled-components';
-import { useTodo } from 'src/hooks/useTodo';
+import { useDispatch, useTodoState } from 'src/utils/context';
+import { loadLocalStorage, saveLocalStorage } from 'src/utils/localStorage';
 import useDragList from 'src/hooks/useDragList';
 
 const TodoList: React.FC = () => {
-  const { todos, createTodos, incrementId, deleteTodo, editTodo } = useTodo();
+  const todoState = useTodoState();
+  const dispatch = useDispatch();
   const {
     lists,
     isDragging,
@@ -16,13 +18,26 @@ const TodoList: React.FC = () => {
     handleDragOver,
     handleDragDrop,
     dragItemIndex,
-  } = useDragList(todos);
+  } = useDragList(todoState);
+
+  const loadData = useCallback((): void => {
+    const loadedTodos = loadLocalStorage();
+    dispatch({ type: 'LOAD', todoState: loadedTodos });
+  }, [dispatch]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  useEffect(() => {
+    saveLocalStorage(todoState);
+  }, [todoState]);
 
   return (
     <>
-      <TodoHeader createTodos={createTodos} incrementId={incrementId} />
+      <TodoHeader />
       <TodoLists>
-        {todos &&
+        {todoState &&
           lists &&
           lists.map((todo, index) => (
             <TodoItemContainer
@@ -37,11 +52,7 @@ const TodoList: React.FC = () => {
               onDrop={handleDragDrop}
               isdragging={dragItemIndex.current === index}
             >
-              <TodoItem
-                todo={todo}
-                deleteTodo={deleteTodo}
-                editTodo={editTodo}
-              />
+              <TodoItem todo={todo} />
             </TodoItemContainer>
           ))}
       </TodoLists>
@@ -54,8 +65,7 @@ const TodoLists = styled.ul`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 25px;
-  padding: 0px 25px;
+  padding: 125px 25px 0px;
 `;
 
 const TodoItemContainer = styled.li<{ isdragging: boolean }>`

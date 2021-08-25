@@ -1,43 +1,51 @@
 import { TODO_KEYS } from 'src/utils/constants';
 import { TodoType } from 'src/utils/utilTypes';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'src/utils/context';
 
 interface EditTodoProps {
   toggleEditMode: () => void;
-  editTodo: (id: number, name: string, value: string | boolean) => void;
   todo: TodoType;
 }
 
-const EditTodo: React.FC<EditTodoProps> = ({
-  toggleEditMode,
-  editTodo,
-  todo,
-}) => {
+const EditTodo: React.FC<EditTodoProps> = ({ toggleEditMode, todo }) => {
   const [editedText, setEditedText] = useState<string>('');
-  const changeTodoText = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const closeEdit = (event: KeyboardEvent): void => {
+      if (event.key !== 'Escape') return;
+      toggleEditMode();
+    };
+    window.addEventListener('keydown', closeEdit);
+    return () => window.removeEventListener('keydown', closeEdit);
+  }, [toggleEditMode]);
+
+  const changeTodoText = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const {
       currentTarget: { value },
     } = event;
     setEditedText(value);
   };
 
-  const submitEdited = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitEdited = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
-    editTodo(todo.id, TODO_KEYS.taskName, editedText);
+    dispatch({
+      type: 'EDIT',
+      id: todo.id,
+      name: TODO_KEYS.taskName,
+      value: editedText,
+    });
     setEditedText('');
     toggleEditMode();
   };
 
   return (
-    <>
-      <EditForm onSubmit={submitEdited}>
-        <EditInput type="text" onChange={changeTodoText} value={editedText} />
-        <EditButton>Edit</EditButton>
-      </EditForm>
-      <CancelButton onClick={toggleEditMode}>Cancel</CancelButton>
-    </>
+    <EditForm onSubmit={submitEdited}>
+      <EditInput type="text" onChange={changeTodoText} value={editedText} />
+    </EditForm>
   );
 };
 
@@ -59,23 +67,6 @@ const EditInput = styled.input`
     border-color: black;
     transition: border-color 0.5s ease-in-out;
   }
-`;
-
-const EditButton = styled.button`
-  all: unset;
-  margin-right: 10px;
-  padding: 5px;
-  font-size: 16px;
-  color: #119955;
-  cursor: pointer;
-`;
-
-const CancelButton = styled.button`
-  all: unset;
-  padding: 5px;
-  font-size: 16px;
-  color: #ff0000;
-  cursor: pointer;
 `;
 
 export default React.memo(EditTodo);

@@ -22,7 +22,7 @@ const reducer = (
         updatedAt: getTodayDate(),
       });
     case 'DELETE':
-      return state.filter((todo) => todo.id !== action.id);
+      return state.filter((todo: TodoType) => todo.id !== action.id);
     case 'EDIT':
       return state.map((todo: TodoType) =>
         action.id !== todo.id

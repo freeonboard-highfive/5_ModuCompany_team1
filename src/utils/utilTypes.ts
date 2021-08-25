@@ -27,8 +27,7 @@ export interface StatusTypes {
 }
 
 export interface UseTodoTypes {
-  createTodos: (todos: TodoType) => void;
-  incrementId: () => number;
+  createTodos: (todoText: string) => void;
   deleteTodo: (id: number) => void;
   editTodo: (id: number, name: string, value: string | boolean) => void;
   todos: TodoType[];

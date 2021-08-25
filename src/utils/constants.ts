@@ -19,3 +19,10 @@ export const TODO_KEYS: TodoFormatTypes = {
 export const STORAGE_KEY: string = 'toDos';
 
 export const INITIALTODO: [] = [];
+
+export const ActionTypes = {
+  ADD: 'ADD',
+  DELETE: 'DELETE',
+  EDIT: 'EDIT',
+  LOAD: 'LOAD',
+};
