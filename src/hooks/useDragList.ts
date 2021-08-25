@@ -23,16 +23,14 @@ const useDragList = (propList: TodoType[]) => {
 
   const handleDragEnter = (e: DragEvent<HTMLLIElement>, targetItem: number) => {
     if (dragItemNode.current !== e.target) {
-      setLists((oldList) => {
-        let newList = oldList;
-        newList.splice(
-          targetItem,
-          0,
-          newList.splice(dragItemIndex.current!, 1)[0],
-        );
-        dragItemIndex.current = targetItem;
-        return [...newList];
-      });
+      let newList = [...lists];
+      newList.splice(
+        targetItem,
+        0,
+        newList.splice(dragItemIndex.current!, 1)[0],
+      );
+      dragItemIndex.current = targetItem;
+      setLists(newList);
     }
   };
 
