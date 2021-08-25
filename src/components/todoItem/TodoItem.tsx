@@ -54,7 +54,7 @@ const TodoItem: React.FC<TodoItemTypes> = ({ todo, deleteTodo, editTodo, updateS
   );
 };
 
-const Todo = styled.li`
+const Todo = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
