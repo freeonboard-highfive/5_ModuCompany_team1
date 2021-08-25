@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled, { css }from 'styled-components';
+import styled from 'styled-components';
 import { TodoType } from 'src/utils/utilTypes';
 
 
@@ -10,8 +10,8 @@ interface TodoItemProps {
 }
 
 const Status = ({ updateStatus, todo }: TodoItemProps) => {
-    const selectList = ['Todo', 'Doing', 'Done'];
-    const [value, setValue] = useState('Status')
+    const selectList = ['Status', 'Todo', 'Doing', 'Done'];
+    const [value, setValue] = useState('')
 
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
         updateStatus(todo.id, e)
@@ -19,7 +19,7 @@ const Status = ({ updateStatus, todo }: TodoItemProps) => {
     }
 
     return (
-        <Select status={value} onChange={handleChange}>
+        <Select value={value} onChange={handleChange}>
             {selectList.map((item) => (
               <Options value={item} key={item}>{item}</Options>
             ))}
@@ -27,7 +27,7 @@ const Status = ({ updateStatus, todo }: TodoItemProps) => {
     )
 }
 
-const Select = styled.select<{status: string}>`
+const Select = styled.select`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,7 +37,6 @@ const Select = styled.select<{status: string}>`
   border-radius: 10px;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
   padding: 5px 10px;
-  ${(props) => props.status === 'Done' && css`color: #ddd`};
 `;
 
 const Options = styled.option``;

@@ -1,6 +1,6 @@
 import { TodoType } from 'src/utils/utilTypes';
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import EditTodo from './EditTodo';
 import { FilledStar } from '../../assets/Stars';
 import Status from '../status/Status';
@@ -85,7 +85,7 @@ const TodoTextBox = styled.div`
 const TodoText = styled.span`
   font-size: 16px;
   margin-left: 35px;
-  margin-top: 5px;
+  margin-top: 5px;;
 `;
 
 const TodoButtonBox = styled.div`

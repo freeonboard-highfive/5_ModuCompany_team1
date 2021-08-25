@@ -30,7 +30,7 @@ const TodoHeader: React.FC<HeaderProps> = ({ createTodos, incrementId }) => {
     createTodos({
       id: incrementId(),
       taskName: todoText,
-      status: STATUS.NOT_STARTED,
+      status: STATUS.INITIAL,
       isImportant: false,
       goalDate: '2021-08-31',
       createdAt: getTodayDate(),
