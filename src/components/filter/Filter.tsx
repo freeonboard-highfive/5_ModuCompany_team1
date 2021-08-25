@@ -1,4 +1,8 @@
 import React, {useState, useEffect} from 'react'
+import styled from 'styled-components';
+import { TodoType } from 'src/utils/utilTypes';
+
+
 
 interface Task {
   id: number;
@@ -27,19 +31,28 @@ enum IMPORTANCE {
   false = 0,
 }
 
-const Filter: React.FC = () => {
+interface TodoItemTypes {
+  _todos: TodoType[];
+}
+
+const Filter: React.FC<TodoItemTypes> = ({_todos}) => {
+  console.log(_todos)
+  // console.log(Tasks)
   const [todos, setTodos] = useState<Task[]>([]);
+  // const [todos, setTodos] = useState<TodoType[]>([]);
   const [modifiedTodos, setModifiedTodos] = useState<Task[]>([])
   const [status, setStatus] = useState<Status | string>("");
   const [dateType, setDateType] = useState<string>('');
-  const [importance, setImportance] = useState<boolean | number>(1);
+  const [importance, setImportance] = useState<boolean | number | null>(null);
   
   // localStorage.setItem('todoList', JSON.stringify(Tasks));
 
   useEffect(() => {
     // const todo_list = JSON.parse(localStorage.getItem('todoList'))
-    // const todo_list: Task[] = Tasks;
-    setTodos(Tasks);
+    // setTodos(Tasks)
+
+    const todo_list: TodoType[] = _todos;
+    setTodos(todo_list);
   }, [])  
 
   const onChangeStatus = (e: React.ChangeEvent<HTMLSelectElement>): void => {
@@ -68,7 +81,6 @@ const Filter: React.FC = () => {
   }
   
   const onChangeImportance = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    console.log(e.target.value)
     // const target_importance: boolean = e.target.value;
     setImportance(Number(e.target.value))
 
@@ -108,26 +120,31 @@ const Filter: React.FC = () => {
   }
 
   return (<div>
+    <SelectBoxes>
     <div>
-      <select name="Status" id="Status" onChange={onChangeStatus}>
+      <SelectBox name="Status" id="Status" onChange={onChangeStatus}>
+        <option selected>Status</option>
         <option value={Status.FINISHED}>완료</option>
         <option value={Status.ONGOING}>진행 중</option>
         <option value={Status.NOT_STARTED}>시작 안함</option>
-      </select>
+      </SelectBox>
     </div>
     <div>
-      <select name="Date" id="Date" onChange={sortDateType}>
+      <SelectBox name="Date" id="Date" onChange={sortDateType}>
+      <option selected>Date</option>
         <option value={DateType.UpdatedAt}>최신 업데이트 순</option>
         <option value={DateType.CreatedAt}>최신 생성 순</option>
         <option value={DateType.GoalDate}>임박 순</option>
-      </select>
+      </SelectBox>
     </div>
     <div>
-      <select name="Importance" id="Importance" onChange={onChangeImportance}>
+      <SelectBox name="Importance" id="Importance" onChange={onChangeImportance}>
+        <option selected>Importance</option>
         <option value={IMPORTANCE.true}>중요 ★</option>
         <option value={IMPORTANCE.false}>안중요 ☆</option>
-      </select>
+      </SelectBox>
     </div>
+    </SelectBoxes>
 
     <ul>
       {modifiedTodos.length ? modifiedTodos.map((el, key) => {
@@ -161,18 +178,38 @@ const Filter: React.FC = () => {
 }
 export default Filter
 
+const SelectBoxes = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 30px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid lightgray;
+`
+const SelectBox = styled.select`
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url(https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg) no-repeat 95% 50%;
+  &::-ms-expand {
+    display: none;
+  }
+  &:focus {
+    outline: none;
+  }
+  width: 200px;
+  padding: 17px 26px 15px 20px;
+  border: 0px solid lightgray;
+  border-radius: 50px;
+  font-size: 19px;
+  color: #646363;
+`
+
 // 목데이터
 const status = {
 	FINISHED: '완료',
 	ONGOING: '진행중',
 	NOT_STARTED: '시작안함'
 }
-
-// const importance ={
-// 	NOT_IMPORTANT: 1,
-// 	IMPORTANT: 2,
-// }
-
 const Tasks: Task[] = [
   {
     id: 1,

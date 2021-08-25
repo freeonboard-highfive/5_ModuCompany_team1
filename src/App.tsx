@@ -1,10 +1,18 @@
-import React from 'react';
-import Filter from './components/Filter';
+import styled from 'styled-components';
+import TodoList from './pages/TodoList';
 
-const App: React.FC = () => {
-  return (<>
-  <Filter/>
-  </>);
+function App() {
+  return (
+    <TodoContainer>
+      <TodoList />
+    </TodoContainer>
+  );
 }
+
+const TodoContainer = styled.div`
+  width: 1080px;
+  margin: 0 auto;
+  padding-top: 20px;
+`;
 
 export default App;
