@@ -3,6 +3,7 @@ import TodoItem from 'src/components/todoItem/TodoItem';
 import styled from 'styled-components';
 import { TodoType } from 'src/utils/utilTypes';
 import { Status, DateType, IMPORTANCE} from 'src/utils/filterEnum'
+import useDragList from 'src/hooks/useDragList';
 
 interface TodoItemTypes {
   _todos: TodoType[];
@@ -11,16 +12,22 @@ interface TodoItemTypes {
 }
 
 const Filter: React.FC<TodoItemTypes> = ({_todos, deleteTodo, editTodo}) => {
-  const [todos, setTodos] = useState<TodoType[]>([]);
+  // const [todos, setTodos] = useState<TodoType[]>([]);
   const [modifiedTodos, setModifiedTodos] = useState<TodoType[]>([])
   const [status, setStatus] = useState<Status | string>("");
   const [dateType, setDateType] = useState<string>('');
   const [importance, setImportance] = useState<boolean | number | null>(null);
+  const {
+    lists,
+    isDragging,
+    handleDragStart,
+    handleDragEnter,
+    handleDragEnd,
+    handleDragOver,
+    handleDragDrop,
+    dragItemIndex,
+  } = useDragList(_todos);
 
-  useEffect(() => {
-    const todo_list: TodoType[] = _todos;
-    setTodos(todo_list);
-  }, [_todos])  
 
   const onChangeStatus = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const target_status: string = e.target.value;
@@ -28,19 +35,18 @@ const Filter: React.FC<TodoItemTypes> = ({_todos, deleteTodo, editTodo}) => {
 
     switch (target_status) {
       case Status.ONGOING:
-        const ongoing_list = todos.filter(todo => todo.status === Status.ONGOING)
+        const ongoing_list = lists.filter(todo => todo.status === Status.ONGOING)
         setModifiedTodos(ongoing_list)
         break;
       case Status.FINISHED:
-        const finished_list = todos.filter(todo => todo.status === Status.FINISHED)
+        const finished_list = lists.filter(todo => todo.status === Status.FINISHED)
         setModifiedTodos(finished_list)
         break;
       case Status.NOT_STARTED:
-        const not_started_list = todos.filter(todo => todo.status === Status.NOT_STARTED)
+        const not_started_list = lists.filter(todo => todo.status === Status.NOT_STARTED)
         setModifiedTodos(not_started_list)
         break;
         default:
-          setTodos(todos)
     }
   }
   
@@ -48,12 +54,12 @@ const Filter: React.FC<TodoItemTypes> = ({_todos, deleteTodo, editTodo}) => {
     setImportance(Number(e.target.value))
 
     if (importance) {
-      const important_list = todos.filter(todo => !todo.isImportant);
+      const important_list = lists.filter(todo => !todo.isImportant);
       setModifiedTodos(important_list)
       setImportance(false)
     }
     if (!importance) {
-      const unimportant_list = todos.filter(todo => todo.isImportant);
+      const unimportant_list = lists.filter(todo => todo.isImportant);
       setModifiedTodos(unimportant_list)
       setImportance(true)
     }
@@ -65,20 +71,20 @@ const Filter: React.FC<TodoItemTypes> = ({_todos, deleteTodo, editTodo}) => {
     
     switch (date_type) {
       case DateType.GoalDate:
-          const by_goal_date = todos.sort((creat1: TodoType, creat2: TodoType) => Date.parse(creat1.goalDate) - Date.parse(creat2.goalDate))
+          const by_goal_date = lists.sort((creat1: TodoType, creat2: TodoType) => Date.parse(creat1.goalDate) - Date.parse(creat2.goalDate))
           setModifiedTodos(by_goal_date)
       break;
       case DateType.CreatedAt:
-        const by_create_date = todos.sort((creat1: TodoType, creat2: TodoType) => Date.parse(creat2.createdAt) - Date.parse(creat1.createdAt))
+        const by_create_date = lists.sort((creat1: TodoType, creat2: TodoType) => Date.parse(creat2.createdAt) - Date.parse(creat1.createdAt))
           setModifiedTodos(by_create_date)
       break;
       case DateType.UpdatedAt:
-        const by_update_date = todos.sort((creat1: TodoType, creat2: TodoType) => Date.parse(creat2.updatedAt) - Date.parse(creat1.updatedAt))
+        const by_update_date = lists.sort((creat1: TodoType, creat2: TodoType) => Date.parse(creat2.updatedAt) - Date.parse(creat1.updatedAt))
           setModifiedTodos(by_update_date)
       break;
 
       default:
-          setTodos(todos)
+
     }
   }
 
@@ -116,14 +122,26 @@ const Filter: React.FC<TodoItemTypes> = ({_todos, deleteTodo, editTodo}) => {
           />
           )
         }):
-        todos.map((todo, key) => {
+        lists.map((todo, index) => {
           return (
-            <TodoItem
-            key={todo.id}
-            todo={todo}
-            deleteTodo={deleteTodo}
-            editTodo={editTodo}
-          />
+            <TodoItemContainer
+              key={todo.id}
+              draggable
+              onDragStart={(e) => handleDragStart(e, index)}
+              onDragEnter={
+                isDragging ? (e) => handleDragEnter(e, index) : () => {}
+              }
+              onDragOver={handleDragOver}
+              onDragEnd={handleDragEnd}
+              onDrop={handleDragDrop}
+              isdragging={dragItemIndex.current === index}
+            >
+              <TodoItem
+                todo={todo}
+                deleteTodo={deleteTodo}
+                editTodo={editTodo}
+              />
+            </TodoItemContainer>
           )
         })
         }
@@ -165,4 +183,22 @@ const TodoLists = styled.ul`
   flex-direction: column;
   margin-top: 25px;
   padding: 0px 25px;
+`;
+
+const TodoItemContainer = styled.li<{ isdragging: boolean }>`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-radius: 10px;
+  background-color: ${(props) => props.isdragging && 'lightgray'};
+
+  :not(:last-of-type) {
+    margin-bottom: 0.5rem;
+  }
+
+  * {
+    margin: 0;
+    font-size: 1.2rem;
+  }
 `;

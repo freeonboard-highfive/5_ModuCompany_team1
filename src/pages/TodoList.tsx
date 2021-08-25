@@ -1,12 +1,11 @@
 import React from 'react';
 import TodoHeader from 'src/components/TodoHeader';
-import { useTodo } from 'src/utils/useTodo';
 import Filter from 'src/components/filter/Filter';
+import { useTodo } from 'src/hooks/useTodo';
 
 
 const TodoList: React.FC = () => {
   const { todos, createTodos, incrementId, deleteTodo, editTodo } = useTodo();
-
   return (
     <>
       <TodoHeader createTodos={createTodos} incrementId={incrementId} />
