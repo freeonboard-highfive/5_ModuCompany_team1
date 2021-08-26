@@ -9,8 +9,8 @@ const reducer = (
   action: Action,
 ): TodoType[] => {
   switch (action.type) {
-    case 'LOAD':
-      return [...state.concat(action.todoState)];
+    case 'SET':
+      return [...action.todoState];
     case 'ADD':
       return state.concat({
         id: incrementStorageId(),
