@@ -2,17 +2,19 @@ import { TodoType, UseDragListTypes } from 'src/utils/utilTypes';
 import { DragEvent, useRef } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { loadLocalStorage, saveLocalStorage } from 'src/utils/localStorage';
 
-const useDragList = (propList: TodoType[]): UseDragListTypes => {
-  const [lists, setLists] = useState(propList);
+const useDragList = (
+  propList: TodoType[],
+  setPropList: any,
+): UseDragListTypes => {
+  const [lists, setLists] = useState<TodoType[]>([]);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const dragItemIndex = useRef<number | null>(null);
   const dragItemNode = useRef<EventTarget | null>(null);
 
   useEffect(() => {
-    setLists(propList);
-  }, [setLists, propList]);
+    setLists([...propList]);
+  }, [propList, setLists]);
 
   const handleDragStart = (e: DragEvent<HTMLElement>, itemIndex: number) => {
     dragItemNode.current = e.target;
@@ -39,12 +41,11 @@ const useDragList = (propList: TodoType[]): UseDragListTypes => {
   };
 
   const handleDragDrop = (e: DragEvent<HTMLElement>) => {
-    saveLocalStorage(lists);
+    setPropList([...lists]);
   };
 
   const handleDragEnd = (e: DragEvent<HTMLElement>) => {
-    const getLists = loadLocalStorage();
-    setLists(getLists);
+    setLists([...propList]);
     setIsDragging(false);
     dragItemIndex.current = null;
     dragItemNode.current = null;
