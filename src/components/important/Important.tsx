@@ -21,7 +21,7 @@ const Important = ({ todo }: TodoItemProps) => {
         <>
             {todo &&
                 <span onClick={handleImportant}>
-                    {isImportant ? <FilledStar /> : <NotFilledStar />}
+                    {todo.isImportant ? <FilledStar /> : <NotFilledStar />}
                 </span>
             }
         </>
