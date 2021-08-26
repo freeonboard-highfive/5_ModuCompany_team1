@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import TodoItem from 'src/components/todoItem/TodoItem';
 import { TodoType } from 'src/utils/utilTypes';
@@ -40,55 +40,56 @@ const Filter: React.FC<TodoItemTypes> = ({ todos }) => {
     };
     console.log(modifiedTodos);
     selectList();
-  }, [lists, modifiedTodos]);
+  }, [lists, modifiedTodos, newArr]);
 
-  const onChangeStatus = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    const target_status: string = e.target.value;
-    setStatus(target_status);
-    switch (target_status) {
-      case Status.Ongoing:
-        const ongoing_list = newArr.filter(
-          (todo) => todo.status === Status.Ongoing,
-        );
-        setModifiedTodos(ongoing_list);
-        console.log(`수정 리스트1: ${modifiedTodos.length}`);
-        break;
-      case Status.Finished:
-        const finished_list = newArr.filter(
-          (todo) => todo.status === Status.Finished,
-        );
-        setModifiedTodos(finished_list);
-        console.log(`수정 리스트1: ${modifiedTodos.length}`);
-        break;
-      case Status.NotStarted:
-        const not_started_list = newArr.filter(
-          (todo) => todo.status === Status.NotStarted,
-        );
-        setModifiedTodos(not_started_list);
-        console.log(`수정 리스트1: ${modifiedTodos.length}`);
-        break;
-      default:
-    }
-  };
-  console.log(`수정 리스트2: ${modifiedTodos.length}`);
-  console.log(`-----------`);
+  const onChangeStatus = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>): void => {
+      const target_status: string = e.target.value;
+      setStatus(target_status);
 
-  const onChangeImportance = (
-    e: React.ChangeEvent<HTMLSelectElement>,
-  ): void => {
-    setImportance(Number(e.target.value));
+      switch (target_status) {
+        case Status.Ongoing:
+          const ongoing_list: TodoType[] = lists.filter(
+            (todo) => todo.status === Status.Ongoing,
+          );
+          setModifiedTodos(ongoing_list);
 
-    if (importance) {
-      const important_list = newArr.filter((todo) => todo.isImportant);
-      setModifiedTodos(important_list);
-      setImportance(false);
-    }
-    if (!importance) {
-      const unimportant_list = newArr.filter((todo) => !todo.isImportant);
-      setModifiedTodos(unimportant_list);
-      setImportance(true);
-    }
-  };
+          break;
+        case Status.Finished:
+          const finished_list: TodoType[] = lists.filter(
+            (todo) => todo.status === Status.Finished,
+          );
+          setModifiedTodos(finished_list);
+          break;
+        case Status.NotStarted:
+          const not_started_list: TodoType[] = lists.filter(
+            (todo) => todo.status === Status.NotStarted,
+          );
+          setModifiedTodos(not_started_list);
+          break;
+        default:
+      }
+    },
+    [lists],
+  );
+
+  const onChangeImportance = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>): void => {
+      setImportance(Number(e.target.value));
+
+      if (importance) {
+        const important_list = lists.filter((todo) => todo.isImportant);
+        setModifiedTodos(important_list);
+        setImportance(false);
+      }
+      if (!importance) {
+        const unimportant_list = lists.filter((todo) => !todo.isImportant);
+        setModifiedTodos(unimportant_list);
+        setImportance(true);
+      }
+    },
+    [importance, lists],
+  );
 
   const sortDateType = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const date_type = e.target.value;
