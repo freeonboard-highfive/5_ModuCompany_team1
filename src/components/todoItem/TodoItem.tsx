@@ -41,13 +41,12 @@ const TodoItem: React.FC<TodoItemTypes> = ({ todo }) => {
                 {todo.isImportant ? 'Important' : 'Not Important'}
               </TodoImportance>
             </TextBox>
-            <TodoButtons>
-              <TodoButton
-                onClick={(): void => dispatch({ type: 'DELETE', id: todo.id })}
-              >
-                D
-              </TodoButton>
-            </TodoButtons>
+
+            <TodoButton
+              onClick={(): void => dispatch({ type: 'DELETE', id: todo.id })}
+            >
+              D
+            </TodoButton>
           </TodoTextBox>
         </TodoTextContent>
       </TodoContainer>
@@ -127,14 +126,10 @@ const TodoSubContent = styled.div`
   margin-top: 12px;
 `;
 
-const TodoButtons = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 const TodoButton = styled.button`
   all: unset;
   font-size: 16px;
+  width: 16px;
   height: 16px;
   color: #ff0000;
   cursor: pointer;

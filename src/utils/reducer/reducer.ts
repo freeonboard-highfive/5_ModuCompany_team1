@@ -1,3 +1,4 @@
+import { act } from 'react-dom/test-utils';
 import { INITIALTODO, STATUS } from '../constants';
 import { getTodayDate } from '../getTodayDate';
 import { incrementStorageId } from '../localStorage';
@@ -14,10 +15,10 @@ const reducer = (
     case 'ADD':
       return state.concat({
         id: incrementStorageId(),
-        taskName: action.text,
-        status: STATUS.NOT_STARTED,
+        taskName: action.taskName,
+        status: action.status,
         isImportant: false,
-        goalDate: '2021-08-31',
+        goalDate: action.goalDate,
         createdAt: getTodayDate(),
         updatedAt: getTodayDate(),
       });
