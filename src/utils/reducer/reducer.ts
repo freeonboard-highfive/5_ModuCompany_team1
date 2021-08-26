@@ -10,7 +10,7 @@ const reducer = (
 ): TodoType[] => {
   switch (action.type) {
     case 'LOAD':
-      return [...state.concat(action.todoState)];
+      return [...action.todoState];
     case 'ADD':
       return state.concat({
         id: incrementStorageId(),
@@ -18,8 +18,8 @@ const reducer = (
         status: STATUS.NOT_STARTED,
         isImportant: false,
         goalDate: '2021-08-31',
-        createdAt: getTodayDate(),
-        updatedAt: getTodayDate(),
+        createdAt: Date.now(),
+        updatedAt: -Date.now(),
       });
     case 'DELETE':
       return state.filter((todo: TodoType) => todo.id !== action.id);
@@ -30,7 +30,7 @@ const reducer = (
           : {
               ...todo,
               [action.name]: action.value,
-              updatedAt: getTodayDate(),
+              updatedAt: -Date.now(),
             },
       );
     default:

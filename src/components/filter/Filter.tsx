@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import TodoItem from 'src/components/todoItem/TodoItem';
 import styled from 'styled-components';
 import { TodoType } from 'src/utils/utilTypes';
 import { Status, DateType, IMPORTANCE } from 'src/utils/filterEnum';
 import useDragList from 'src/hooks/useDragList';
+import { INITIALTODO } from 'src/utils/constants';
+import { useTodoState } from 'src/utils/context';
 
-interface TodoItemTypes {
-  _todos: TodoType[];
-}
-
-const Filter: React.FC<TodoItemTypes> = ({ _todos }) => {
-  const [modifiedTodos, setModifiedTodos] = useState<TodoType[]>([]);
-  const [status, setStatus] = useState<Status | string>('');
-  const [dateType, setDateType] = useState<string>('');
-  const [importance, setImportance] = useState<boolean | number | null>(null);
+const Filter: React.FC = () => {
+  const _todos = useTodoState();
+  const [modifiedTodos, setModifiedTodos] = useState<TodoType[]>(INITIALTODO);
+  const [status, setStatus] = useState<Status | string>(Status.ALL);
+  const [dateType, setDateType] = useState<DateType | string>(
+    DateType.CreatedAt,
+  );
+  const [importance, setImportance] = useState<IMPORTANCE | string>(
+    IMPORTANCE.All,
+  );
   const {
     lists,
     isDragging,
@@ -25,98 +28,95 @@ const Filter: React.FC<TodoItemTypes> = ({ _todos }) => {
     dragItemIndex,
   } = useDragList(_todos);
 
+  const filterDate = (dateType: string): TodoType[] => {
+    switch (dateType) {
+      case DateType.GoalDate:
+        const goalSort = modifiedTodos.sort(
+          (creat1: TodoType, creat2: TodoType) =>
+            Date.parse(creat1.goalDate) - Date.parse(creat2.goalDate),
+        );
+        return [...goalSort];
+      case DateType.CreatedAt:
+        const createSort = modifiedTodos.sort(
+          (creat1: TodoType, creat2: TodoType) =>
+            creat1.createdAt - creat2.createdAt,
+        );
+        return [...createSort];
+      case DateType.UpdatedAt:
+        const updateSort = modifiedTodos.sort(
+          (creat1: TodoType, creat2: TodoType) =>
+            creat1.updatedAt - creat2.updatedAt,
+        );
+        return [...updateSort];
+      default:
+        return modifiedTodos;
+    }
+  };
+
+  const filterImportance = useCallback(
+    (arr: TodoType[]): TodoType[] => {
+      switch (importance) {
+        case IMPORTANCE.true:
+          return arr.filter((todo: TodoType) => todo.isImportant);
+        case IMPORTANCE.false:
+          return arr.filter((todo: TodoType) => !todo.isImportant);
+        default:
+          return arr;
+      }
+    },
+    [importance],
+  );
+
+  const filterTodoStatus = useCallback((): void => {
+    if (status === Status.ALL) {
+      const sortimportance: TodoType[] = filterImportance(lists);
+      return setModifiedTodos(sortimportance);
+    }
+
+    const filteredTodo: TodoType[] = lists.filter(
+      (todo: TodoType) => todo.status === status,
+    );
+    const importanceArr = filterImportance(filteredTodo);
+    return setModifiedTodos(importanceArr);
+  }, [lists, status, filterImportance]);
+
+  useEffect(() => {
+    filterTodoStatus();
+  }, [filterTodoStatus]);
+
+  useEffect(() => {
+    const sortedArr = filterDate(dateType);
+    setModifiedTodos(sortedArr);
+  }, [dateType]);
+
   const onChangeStatus = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const target_status: string = e.target.value;
     setStatus(target_status);
-
-    switch (target_status) {
-      case Status.ONGOING:
-        const ongoing_list = lists.filter(
-          (todo) => todo.status === Status.ONGOING,
-        );
-        setModifiedTodos(ongoing_list);
-        break;
-      case Status.FINISHED:
-        const finished_list = lists.filter(
-          (todo) => todo.status === Status.FINISHED,
-        );
-        setModifiedTodos(finished_list);
-        break;
-      case Status.NOT_STARTED:
-        const not_started_list = lists.filter(
-          (todo) => todo.status === Status.NOT_STARTED,
-        );
-        setModifiedTodos(not_started_list);
-        break;
-      default:
-    }
   };
 
   const onChangeImportance = (
     e: React.ChangeEvent<HTMLSelectElement>,
   ): void => {
-    setImportance(Number(e.target.value));
-
-    if (importance) {
-      const important_list = lists.filter((todo) => !todo.isImportant);
-      setModifiedTodos(important_list);
-      setImportance(false);
-    }
-    if (!importance) {
-      const unimportant_list = lists.filter((todo) => todo.isImportant);
-      setModifiedTodos(unimportant_list);
-      setImportance(true);
-    }
+    setImportance(e.target.value);
   };
 
   const sortDateType = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    const date_type = e.target.value;
+    const date_type: string = e.target.value;
     setDateType(date_type);
-
-    switch (date_type) {
-      case DateType.GoalDate:
-        const by_goal_date = lists.sort(
-          (creat1: TodoType, creat2: TodoType) =>
-            Date.parse(creat1.goalDate) - Date.parse(creat2.goalDate),
-        );
-        setModifiedTodos(by_goal_date);
-        break;
-      case DateType.CreatedAt:
-        const by_create_date = lists.sort(
-          (creat1: TodoType, creat2: TodoType) =>
-            Date.parse(creat2.createdAt) - Date.parse(creat1.createdAt),
-        );
-        setModifiedTodos(by_create_date);
-        break;
-      case DateType.UpdatedAt:
-        const by_update_date = lists.sort(
-          (creat1: TodoType, creat2: TodoType) =>
-            Date.parse(creat2.updatedAt) - Date.parse(creat1.updatedAt),
-        );
-        setModifiedTodos(by_update_date);
-        break;
-
-      default:
-    }
   };
 
   return (
     <>
       <SelectBoxes>
         <SelectBox name="Status" id="Status" onChange={onChangeStatus}>
-          <option defaultValue={'Status'} hidden>
-            Status
-          </option>
+          <option defaultValue={Status.ALL}>All</option>
           <option value={Status.FINISHED}>Finished</option>
           <option value={Status.ONGOING}>Ongoing</option>
           <option value={Status.NOT_STARTED}>Not Started</option>
         </SelectBox>
         <SelectBox name="Date" id="Date" onChange={sortDateType}>
-          <option defaultValue={'Date'} hidden>
-            Date
-          </option>
-          <option value={DateType.UpdatedAt}>latest update order</option>
           <option value={DateType.CreatedAt}>latest creation order</option>
+          <option value={DateType.UpdatedAt}>latest update order</option>
           <option value={DateType.GoalDate}>close to the deadline</option>
         </SelectBox>
         <SelectBox
@@ -124,37 +124,28 @@ const Filter: React.FC<TodoItemTypes> = ({ _todos }) => {
           id="Importance"
           onChange={onChangeImportance}
         >
-          <option defaultValue={'Importance'} hidden>
-            Importance
-          </option>
+          <option value={IMPORTANCE.All}>All</option>
           <option value={IMPORTANCE.true}>Important ★</option>
           <option value={IMPORTANCE.false}>Not important ☆</option>
         </SelectBox>
       </SelectBoxes>
-
       <TodoLists>
-        {modifiedTodos.length
-          ? modifiedTodos.map((todo) => {
-              return <TodoItem key={todo.id} todo={todo} />;
-            })
-          : lists.map((todo, index) => {
-              return (
-                <TodoItemContainer
-                  key={todo.id}
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, index)}
-                  onDragEnter={
-                    isDragging ? (e) => handleDragEnter(e, index) : () => {}
-                  }
-                  onDragOver={handleDragOver}
-                  onDragEnd={handleDragEnd}
-                  onDrop={handleDragDrop}
-                  isdragging={dragItemIndex.current === index}
-                >
-                  <TodoItem todo={todo} />
-                </TodoItemContainer>
-              );
-            })}
+        {modifiedTodos.map((todo, index) => (
+          <TodoItemContainer
+            key={todo.id}
+            draggable
+            onDragStart={(e) => handleDragStart(e, index)}
+            onDragEnter={
+              isDragging ? (e) => handleDragEnter(e, index) : () => {}
+            }
+            onDragOver={handleDragOver}
+            onDragEnd={handleDragEnd}
+            onDrop={handleDragDrop}
+            isdragging={dragItemIndex.current === index}
+          >
+            <TodoItem todo={todo} />
+          </TodoItemContainer>
+        ))}
       </TodoLists>
     </>
   );

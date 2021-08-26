@@ -29,6 +29,7 @@ const TodoHeader: React.FC = () => {
     <HeaderContainer>
       <TodoForm onSubmit={submitTodos}>
         <TodoInput
+          required
           type="text"
           placeholder="What are your plans for today?"
           onChange={todoTextChange}
