@@ -43,7 +43,8 @@ const TodoHeader: React.FC = () => {
 };
 
 const HeaderContainer = styled.header`
-  width: inherit;
+  width: 100%;
+  max-width: 768px;
   position: fixed;
   top: 20px;
   left: 50%;

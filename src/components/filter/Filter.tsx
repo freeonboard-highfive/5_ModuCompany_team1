@@ -215,17 +215,12 @@ const TodoLists = styled.ul`
 
 const TodoItemContainer = styled.li<{ isdragging: boolean }>`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+
   width: 100%;
   border-radius: 10px;
   background-color: ${(props) => props.isdragging && 'lightgray'};
 
   :not(:last-of-type) {
     margin-bottom: 0.5rem;
-  }
-
-  * {
-    font-size: 1.2rem;
   }
 `;

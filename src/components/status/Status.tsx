@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { TodoType } from 'src/utils/utilTypes';
 import { useDispatch } from 'src/utils/context';
-import { TODO_KEYS } from 'src/utils/constants';
+import { STATUS, TODO_KEYS } from 'src/utils/constants';
 
 interface TodoItemProps {
   todo: TodoType;
@@ -10,7 +10,6 @@ interface TodoItemProps {
 
 const Status = ({ todo }: TodoItemProps) => {
   const selectList = ['Todo', 'Doing', 'Done'];
-  const [value, setValue] = useState('');
   const dispatch = useDispatch();
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
@@ -18,12 +17,11 @@ const Status = ({ todo }: TodoItemProps) => {
       target: { value },
     } = event;
     dispatch({ type: 'EDIT', id: todo.id, name: TODO_KEYS.status, value });
-    setValue(value);
   };
 
   return (
-    <Select status={value} onChange={handleChange}>
-      <Options defaultValue={'Status'} hidden>
+    <Select status={todo.status} onChange={handleChange}>
+      <Options defaultValue={todo.status} hidden>
         {todo.status}
       </Options>
       {selectList.map((item) => (
@@ -36,22 +34,20 @@ const Status = ({ todo }: TodoItemProps) => {
 };
 
 const Select = styled.select<{ status: string }>`
+  color: ${(props) =>
+    props.status === STATUS.ONGOING
+      ? '#5457c2'
+      : props.status === STATUS.NOT_STARTED
+      ? '#5ebb9d'
+      : '#ddd'};
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 15%;
-  height: 46px;
   border: none;
-  border-radius: 10px;
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
-  padding: 5px 10px;
-  ${(props) =>
-    props.status === 'Done' &&
-    css`
-      color: #ddd;
-    `};
 `;
 
-const Options = styled.option``;
+const Options = styled.option`
+  color: black;
+`;
 
 export default Status;
