@@ -13,12 +13,13 @@ const Important = ({ todo }: TodoItemProps) => {
     const dispatch = useDispatch();
 
     const handleImportant = (event: React.MouseEvent<HTMLSpanElement>): void => {
-        setIsImportant(prev => !prev)
+        dispatch({ type: 'EDIT', id: todo.id, name: TODO_KEYS.isImportant, value: !todo.isImportant, });
+        setIsImportant(!isImportant)
     }
 
     return (
         <>
-            {!isImportant &&
+            {todo &&
                 <span onClick={handleImportant}>
                     {isImportant ? <FilledStar /> : <NotFilledStar />}
                 </span>
