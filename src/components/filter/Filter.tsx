@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import TodoItem from 'src/components/todoItem/TodoItem';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import TodoItem from 'src/components/todoItem/TodoItem';
 import { TodoType } from 'src/utils/utilTypes';
-import { Status, DateType, IMPORTANCE } from 'src/utils/filterEnum';
+import { Status, DateType, Importance } from 'src/utils/filterEnum';
 import useDragList from 'src/hooks/useDragList';
 
 interface TodoItemTypes {
-  _todos: TodoType[];
+  todos: TodoType[];
 }
 
-const Filter: React.FC<TodoItemTypes> = ({ _todos }) => {
+const Filter: React.FC<TodoItemTypes> = ({ todos }) => {
+  const [newArr, setNewArr] = useState<TodoType[]>([]);
   const [modifiedTodos, setModifiedTodos] = useState<TodoType[]>([]);
   const [status, setStatus] = useState<Status | string>('');
   const [dateType, setDateType] = useState<string>('');
@@ -23,34 +24,54 @@ const Filter: React.FC<TodoItemTypes> = ({ _todos }) => {
     handleDragOver,
     handleDragDrop,
     dragItemIndex,
-  } = useDragList(_todos);
+  } = useDragList(todos);
+
+  useEffect(() => {
+    const selectList = () => {
+      if (modifiedTodos.length === 0) {
+        setNewArr(lists);
+      }
+      if (modifiedTodos.length !== 0 && modifiedTodos.length !== lists.length) {
+        setNewArr(modifiedTodos);
+      }
+      if (modifiedTodos.length === lists.length) {
+        setNewArr(lists);
+      }
+    };
+    console.log(modifiedTodos);
+    selectList();
+  }, [lists, modifiedTodos]);
 
   const onChangeStatus = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const target_status: string = e.target.value;
     setStatus(target_status);
-
     switch (target_status) {
-      case Status.ONGOING:
-        const ongoing_list = lists.filter(
-          (todo) => todo.status === Status.ONGOING,
+      case Status.Ongoing:
+        const ongoing_list = newArr.filter(
+          (todo) => todo.status === Status.Ongoing,
         );
         setModifiedTodos(ongoing_list);
+        console.log(`수정 리스트1: ${modifiedTodos.length}`);
         break;
-      case Status.FINISHED:
-        const finished_list = lists.filter(
-          (todo) => todo.status === Status.FINISHED,
+      case Status.Finished:
+        const finished_list = newArr.filter(
+          (todo) => todo.status === Status.Finished,
         );
         setModifiedTodos(finished_list);
+        console.log(`수정 리스트1: ${modifiedTodos.length}`);
         break;
-      case Status.NOT_STARTED:
-        const not_started_list = lists.filter(
-          (todo) => todo.status === Status.NOT_STARTED,
+      case Status.NotStarted:
+        const not_started_list = newArr.filter(
+          (todo) => todo.status === Status.NotStarted,
         );
         setModifiedTodos(not_started_list);
+        console.log(`수정 리스트1: ${modifiedTodos.length}`);
         break;
       default:
     }
   };
+  console.log(`수정 리스트2: ${modifiedTodos.length}`);
+  console.log(`-----------`);
 
   const onChangeImportance = (
     e: React.ChangeEvent<HTMLSelectElement>,
@@ -58,12 +79,12 @@ const Filter: React.FC<TodoItemTypes> = ({ _todos }) => {
     setImportance(Number(e.target.value));
 
     if (importance) {
-      const important_list = lists.filter((todo) => !todo.isImportant);
+      const important_list = newArr.filter((todo) => todo.isImportant);
       setModifiedTodos(important_list);
       setImportance(false);
     }
     if (!importance) {
-      const unimportant_list = lists.filter((todo) => todo.isImportant);
+      const unimportant_list = newArr.filter((todo) => !todo.isImportant);
       setModifiedTodos(unimportant_list);
       setImportance(true);
     }
@@ -75,21 +96,21 @@ const Filter: React.FC<TodoItemTypes> = ({ _todos }) => {
 
     switch (date_type) {
       case DateType.GoalDate:
-        const by_goal_date = lists.sort(
+        const by_goal_date = newArr.sort(
           (creat1: TodoType, creat2: TodoType) =>
             Date.parse(creat1.goalDate) - Date.parse(creat2.goalDate),
         );
         setModifiedTodos(by_goal_date);
         break;
       case DateType.CreatedAt:
-        const by_create_date = lists.sort(
+        const by_create_date = newArr.sort(
           (creat1: TodoType, creat2: TodoType) =>
             Date.parse(creat2.createdAt) - Date.parse(creat1.createdAt),
         );
         setModifiedTodos(by_create_date);
         break;
       case DateType.UpdatedAt:
-        const by_update_date = lists.sort(
+        const by_update_date = newArr.sort(
           (creat1: TodoType, creat2: TodoType) =>
             Date.parse(creat2.updatedAt) - Date.parse(creat1.updatedAt),
         );
@@ -107,9 +128,9 @@ const Filter: React.FC<TodoItemTypes> = ({ _todos }) => {
           <option defaultValue={'Status'} hidden>
             Status
           </option>
-          <option value={Status.FINISHED}>Finished</option>
-          <option value={Status.ONGOING}>Ongoing</option>
-          <option value={Status.NOT_STARTED}>Not Started</option>
+          <option value={Status.NotStarted}>{Status.NotStarted}</option>
+          <option value={Status.Ongoing}>{Status.Ongoing}</option>
+          <option value={Status.Finished}>{Status.Finished}</option>
         </SelectBox>
         <SelectBox name="Date" id="Date" onChange={sortDateType}>
           <option defaultValue={'Date'} hidden>
@@ -127,34 +148,30 @@ const Filter: React.FC<TodoItemTypes> = ({ _todos }) => {
           <option defaultValue={'Importance'} hidden>
             Importance
           </option>
-          <option value={IMPORTANCE.true}>Important ★</option>
-          <option value={IMPORTANCE.false}>Not important ☆</option>
+          <option value={Importance.True}>Important ★</option>
+          <option value={Importance.False}>Not important ☆</option>
         </SelectBox>
       </SelectBoxes>
 
       <TodoLists>
-        {modifiedTodos.length
-          ? modifiedTodos.map((todo) => {
-              return <TodoItem key={todo.id} todo={todo} />;
-            })
-          : lists.map((todo, index) => {
-              return (
-                <TodoItemContainer
-                  key={todo.id}
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, index)}
-                  onDragEnter={
-                    isDragging ? (e) => handleDragEnter(e, index) : () => {}
-                  }
-                  onDragOver={handleDragOver}
-                  onDragEnd={handleDragEnd}
-                  onDrop={handleDragDrop}
-                  isdragging={dragItemIndex.current === index}
-                >
-                  <TodoItem todo={todo} />
-                </TodoItemContainer>
-              );
-            })}
+        {newArr.map((todo, index) => {
+          return (
+            <TodoItemContainer
+              key={todo.id}
+              draggable
+              onDragStart={(e) => handleDragStart(e, index)}
+              onDragEnter={
+                isDragging ? (e) => handleDragEnter(e, index) : () => {}
+              }
+              onDragOver={handleDragOver}
+              onDragEnd={handleDragEnd}
+              onDrop={handleDragDrop}
+              isdragging={dragItemIndex.current === index}
+            >
+              <TodoItem todo={todo} />
+            </TodoItemContainer>
+          );
+        })}
       </TodoLists>
     </>
   );
@@ -185,6 +202,7 @@ const SelectBox = styled.select`
   border: 1px solid lightgray;
   border-radius: 50px;
   font-size: 19px;
+  background-color: white;
   color: #646363;
 `;
 const TodoLists = styled.ul`

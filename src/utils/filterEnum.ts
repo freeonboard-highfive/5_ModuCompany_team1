@@ -1,7 +1,7 @@
 export enum Status {
-  FINISHED = 'Done',
-  ONGOING = 'Doing',
-  NOT_STARTED = 'Todo'
+  Finished = 'Done',
+  Ongoing = 'Doing',
+  NotStarted = 'Todo'
 }
 
 export enum DateType {
@@ -10,7 +10,7 @@ export enum DateType {
   UpdatedAt = 'updatedAt'
 }
 
-export enum IMPORTANCE {
-  true = 1,
-  false = 0,
+export enum Importance {
+  False,
+  True
 }
