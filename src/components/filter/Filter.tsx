@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TodoItem from 'src/components/todoItem/TodoItem';
 import styled from 'styled-components';
 import { TodoType } from 'src/utils/utilTypes';
@@ -6,6 +6,7 @@ import { Status, DateType, IMPORTANCE } from 'src/utils/filterEnum';
 import useDragList from 'src/hooks/useDragList';
 import { useTodoState } from 'src/utils/context';
 import { SELECTNAME } from 'src/utils/constants';
+import { filterDate, filterImportance, filterStatus } from 'src/utils/filters';
 
 const Filter: React.FC = () => {
   const _todos = useTodoState();
@@ -13,72 +14,24 @@ const Filter: React.FC = () => {
   const [status, setStatus] = useState<Status | string>(Status.ALL);
   const [dateType, setDateType] = useState<string>(DateType.CreatedAt);
   const [importance, setImportance] = useState<string>(IMPORTANCE.All);
-  const modifiedDragList = useDragList(modifiedTodos, setModifiedTodos);
+  const {
+    lists,
+    isDragging,
+    handleDragStart,
+    handleDragEnter,
+    handleDragEnd,
+    handleDragOver,
+    handleDragDrop,
+    dragItemIndex,
+  } = useDragList(modifiedTodos, setModifiedTodos);
 
-  const filterDate = (dateType: string): TodoType[] => {
-    switch (dateType) {
-      case DateType.GoalDate:
-        const goalSort = _todos.sort(
-          (creat1: TodoType, creat2: TodoType) =>
-            Date.parse(creat1.goalDate) - Date.parse(creat2.goalDate),
-        );
-        return [...goalSort];
-      case DateType.CreatedAt:
-        const createSort = _todos.sort(
-          (creat1: TodoType, creat2: TodoType) =>
-            creat1.createdAt - creat2.createdAt,
-        );
-        return [...createSort];
-      case DateType.UpdatedAt:
-        const updateSort = _todos.sort(
-          (creat1: TodoType, creat2: TodoType) =>
-            creat2.updatedAt - creat1.updatedAt,
-        );
-        return [...updateSort];
-      default:
-        return modifiedTodos;
-    }
-  };
-
-  const filterImportance = useCallback(
-    (arr: TodoType[]): TodoType[] => {
-      switch (importance) {
-        case IMPORTANCE.true:
-          return arr.filter((todo: TodoType) => todo.isImportant);
-        case IMPORTANCE.false:
-          return arr.filter((todo: TodoType) => !todo.isImportant);
-        default:
-          return arr;
-      }
-    },
-    [importance],
-  );
-
-  const filterTodoStatus = useCallback((): void => {
-    if (status === Status.ALL) {
-      const sortimportance: TodoType[] = filterImportance(_todos);
-      return setModifiedTodos(sortimportance);
-    }
-
-    const filteredTodo: TodoType[] = _todos.filter(
-      (todo: TodoType) => todo.status === status,
+  useEffect(() => {
+    const filteredTodo = filterImportance(
+      filterDate(filterStatus(_todos, status), dateType),
+      importance,
     );
-    const importanceArr = filterImportance(filteredTodo);
-    return setModifiedTodos(importanceArr);
-  }, [status, filterImportance]);
-
-  useEffect(() => {
-    setModifiedTodos(_todos);
-  }, [_todos]);
-
-  useEffect(() => {
-    filterTodoStatus();
-  }, [filterTodoStatus]);
-
-  useEffect(() => {
-    const sortedArr = filterDate(dateType);
-    setModifiedTodos(sortedArr);
-  }, [dateType]);
+    setModifiedTodos(filteredTodo);
+  }, [status, dateType, importance, _todos]);
 
   const onSelectChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
@@ -134,26 +87,22 @@ const Filter: React.FC = () => {
         </SelectBox>
       </SelectBoxes>
       <TodoLists>
-        {modifiedDragList.lists.map((todo, index) => {
-          return (
-            <TodoItemContainer
-              key={todo.id}
-              draggable
-              onDragStart={(e) => modifiedDragList.handleDragStart(e, index)}
-              onDragEnter={
-                modifiedDragList.isDragging
-                  ? (e) => modifiedDragList.handleDragEnter(e, index)
-                  : () => {}
-              }
-              onDragOver={modifiedDragList.handleDragOver}
-              onDragEnd={modifiedDragList.handleDragEnd}
-              onDrop={modifiedDragList.handleDragDrop}
-              isdragging={modifiedDragList.dragItemIndex.current === index}
-            >
-              <TodoItem todo={todo} />
-            </TodoItemContainer>
-          );
-        })}
+        {lists.map((todo, index) => (
+          <TodoItemContainer
+            key={todo.id}
+            draggable
+            onDragStart={(e) => handleDragStart(e, index)}
+            onDragEnter={
+              isDragging ? (e) => handleDragEnter(e, index) : () => {}
+            }
+            onDragOver={handleDragOver}
+            onDragEnd={handleDragEnd}
+            onDrop={handleDragDrop}
+            isdragging={dragItemIndex.current === index}
+          >
+            <TodoItem todo={todo} />
+          </TodoItemContainer>
+        ))}
       </TodoLists>
     </>
   );
@@ -163,7 +112,7 @@ export default Filter;
 const SelectBoxes = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 149px 30px 20px;
+  padding: 50px 30px 20px;
   margin-bottom: 15px;
   border-bottom: 1px solid lightgray;
 `;
@@ -197,17 +146,12 @@ const TodoLists = styled.ul`
 
 const TodoItemContainer = styled.li<{ isdragging: boolean }>`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+
   width: 100%;
   border-radius: 10px;
   background-color: ${(props) => props.isdragging && 'lightgray'};
 
   :not(:last-of-type) {
     margin-bottom: 0.5rem;
-  }
-
-  * {
-    font-size: 1.2rem;
   }
 `;

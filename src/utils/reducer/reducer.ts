@@ -13,10 +13,10 @@ const reducer = (
     case 'ADD':
       return state.concat({
         id: incrementStorageId(),
-        taskName: action.text,
-        status: STATUS.NOT_STARTED,
+        taskName: action.taskName,
+        status: action.status,
         isImportant: false,
-        goalDate: '2021-08-31',
+        goalDate: action.goalDate,
         createdAt: Date.now(),
         updatedAt: Date.now(),
       });

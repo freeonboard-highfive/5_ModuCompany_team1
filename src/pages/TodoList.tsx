@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect } from 'react';
+import Filter from 'src/components/filter/Filter';
 import TodoHeader from 'src/components/TodoHeader/TodoHeader';
+
 import { useDispatch, useTodoState } from 'src/utils/context';
 import { loadLocalStorage, saveLocalStorage } from 'src/utils/localStorage';
-import Filter from 'src/components/filter/Filter';
 
 const TodoList: React.FC = () => {
   const todoState = useTodoState();

@@ -10,7 +10,7 @@ function App() {
 }
 
 const TodoContainer = styled.div`
-  width: 1080px;
+  max-width: 768px;
   margin: 0 auto;
 `;
 
