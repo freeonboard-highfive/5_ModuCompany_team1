@@ -9,7 +9,7 @@ interface TodoItemProps {
 }
 
 const Status = ({ todo }: TodoItemProps) => {
-  const selectList = ['Todo', 'Doing', 'Done'];
+  const selectList = [STATUS.NOT_STARTED, STATUS.ONGOING, STATUS.FINISHED];
   const dispatch = useDispatch();
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {

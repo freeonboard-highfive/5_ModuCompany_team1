@@ -1,7 +1,7 @@
 export enum Status {
-  FINISHED = 'Done',
-  ONGOING = 'Doing',
-  NOT_STARTED = 'Todo',
+  FINISHED = 'Finished',
+  ONGOING = 'Ongoing',
+  NOT_STARTED = 'Not Started',
   ALL = 'All',
 }
 

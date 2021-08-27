@@ -12,7 +12,7 @@ export const filterDate = (arr: TodoType[], dateType: string): TodoType[] => {
     case DateType.CreatedAt:
       const createSort = arr.sort(
         (creat1: TodoType, creat2: TodoType) =>
-          creat1.createdAt - creat2.createdAt,
+          creat2.createdAt - creat1.createdAt,
       );
       return [...createSort];
     case DateType.UpdatedAt:
@@ -39,7 +39,7 @@ export const filterImportance = (arr: TodoType[], importance: string) => {
 
 export const filterStatus = (arr: TodoType[], status: string) => {
   if (status === Status.ALL) {
-    return arr;
+    return [...arr];
   } else {
     return arr.filter((todo: TodoType) => todo.status === status);
   }
