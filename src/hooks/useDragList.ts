@@ -1,11 +1,11 @@
 import { TodoType, UseDragListTypes } from 'src/utils/utilTypes';
-import { DragEvent, useRef } from 'react';
+import { Dispatch, DragEvent, useRef } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
 const useDragList = (
   propList: TodoType[],
-  setPropList: any,
+  setPropList: Dispatch<React.SetStateAction<TodoType[]>>,
 ): UseDragListTypes => {
   const [lists, setLists] = useState<TodoType[]>([]);
   const [isDragging, setIsDragging] = useState<boolean>(false);

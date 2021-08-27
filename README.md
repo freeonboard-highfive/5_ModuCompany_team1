@@ -53,15 +53,14 @@
 
 ## 🚀 배포
 
-Demo Link: https://www.moduparking.com/
+Demo Link: https://modu-todolist.netlify.app/
 <br/><br/>
 
 ## 🗂 구현 목록
-      
 
 `Task생성, 수정, 삭제`
 
-- 내용, 완료목표일 설정 후 Task 생성 
+- 내용, 완료목표일 설정 후 Task 생성
 - 별도의 버튼 클릭 없이 작성된 텍스트 클릭시 Task수정가능
 - 휴지통 모양의 아이콘을 클릭 시 해당id에 맞는 Task가 삭제
 
@@ -71,7 +70,7 @@ Demo Link: https://www.moduparking.com/
 - 작성된 날짜 순서에 따라 필터링
 - 설정된 Task의 중요도에 따른 필터링
 - 각 필터링은 중복조건에도 조회가 가능
-    
+
 `Task 상태 및 중요도`
 
 - Task의 상태는 총 3가지로 분류(Todo, Doing, Done)
@@ -83,13 +82,13 @@ Demo Link: https://www.moduparking.com/
 - Task가 처음 생성될 때 생성일이 localStorage에 저장
 - Task가 수정될 때 업데이트일이 localStorage에 저장
 - DatePicker를 이용하여 dueDate를 설정 가능
-    
+
 `Task Item Drag & Drop`
 
-- 작성요망
-- 작성요망
-- 작성요망
-    
+- Drag에 필요한 속성을 반환하는 커스텀훅 `useDragList` 생성
+- Drag & Drop을 통해 Task의 순서 변경 가능
+- 훅 내부 state의 변경으로 아이템의 실시간 위치 변경을 보여주고, onDrop 되었을 때에만 원본 배열을 수정
+
 <br/><br/>
 
 ## 💁🏻‍♂ 실행 방법
@@ -105,12 +104,12 @@ Demo Link: https://www.moduparking.com/
 
 ## 😀 멤버
 
-| 이름   | 담당                     |
-| ----- | ------------------------|
-| 김민기 | Task생성, 수정, 삭제 |
+| 이름   | 담당                         |
+| ------ | ---------------------------- |
+| 김민기 | Task생성, 수정, 삭제         |
 | 김은태 | Task상태값 설정, 중요도 설정 |
-| 김효진 | Task 조회 기능 |
-| 이시형 | Task Drag&Drop 기능 |
+| 김효진 | Task 조회 기능               |
+| 이시형 | Task Drag&Drop 기능          |
 
 <br/><br/>
 
