@@ -24,7 +24,7 @@ const TodoList: React.FC = () => {
   return (
     <>
       <TodoHeader />
-      <Filter _todos={todoState} />
+      <Filter />
     </>
   );
 };

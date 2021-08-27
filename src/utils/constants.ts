@@ -4,7 +4,7 @@ export const STATUS: StatusTypes = {
   FINISHED: 'Done',
   ONGOING: 'Doing',
   NOT_STARTED: 'Todo',
-  INITIAL: 'Status'
+  INITIAL: 'Status',
 };
 
 export const TODO_KEYS: TodoFormatTypes = {

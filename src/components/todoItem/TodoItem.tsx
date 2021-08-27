@@ -34,13 +34,12 @@ const TodoItem: React.FC<TodoItemTypes> = ({ todo }) => {
         )}
       </TodoContent>
       <DateBox>Date</DateBox>
-      <ImportanceBox>ChangeState</ImportanceBox>
+      <Status todo={todo} />
       <TodoButton
         onClick={(): void => dispatch({ type: 'DELETE', id: todo.id })}
       >
         <Trash />
       </TodoButton>
-      <Status todo={todo} />
     </Todo>
   );
 };
@@ -98,15 +97,6 @@ const TodoButton = styled.button`
 `;
 
 const DateBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 15%;
-  height: 56px;
-  border-radius: 10px;
-`;
-
-const ImportanceBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;

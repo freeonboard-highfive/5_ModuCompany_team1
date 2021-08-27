@@ -38,13 +38,19 @@ const EditTodo: React.FC<EditTodoProps> = ({ toggleEditMode, todo }) => {
       name: TODO_KEYS.taskName,
       value: editedText,
     });
+
     setEditedText('');
     toggleEditMode();
   };
 
   return (
     <EditForm onSubmit={submitEdited}>
-      <EditInput type="text" onChange={changeTodoText} value={editedText} />
+      <EditInput
+        required
+        type="text"
+        onChange={changeTodoText}
+        value={editedText}
+      />
     </EditForm>
   );
 };
