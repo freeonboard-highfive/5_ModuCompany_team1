@@ -1,17 +1,17 @@
-export enum Status {
-  FINISHED = 'Finished',
-  ONGOING = 'Ongoing',
-  NOT_STARTED = 'Not Started',
+export enum StatusEnum {
   ALL = 'All',
+  NOT_STARTED = 'Not Started',
+  ONGOING = 'Ongoing',
+  FINISHED = 'Finished',
 }
 
-export enum DateType {
+export enum DateTypeEnum {
   GoalDate = 'goalDate',
   CreatedAt = 'createdAt',
   UpdatedAt = 'updatedAt',
 }
 
-export enum IMPORTANCE {
+export enum ImportanceEnum {
   All = 'All',
   true = 'Important',
   false = 'NotImportant',
