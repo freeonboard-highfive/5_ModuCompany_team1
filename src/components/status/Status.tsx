@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
+import React from 'react';
+import styled from 'styled-components';
 import { TodoType } from 'src/utils/utilTypes';
 import { useDispatch } from 'src/utils/context';
 import { STATUS, TODO_KEYS } from 'src/utils/constants';

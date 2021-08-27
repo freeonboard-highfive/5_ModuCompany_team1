@@ -1,6 +1,5 @@
-import { act } from 'react-dom/test-utils';
-import { INITIALTODO, STATUS } from '../constants';
-import { getTodayDate } from '../getTodayDate';
+import { INITIALTODO } from '../constants';
+import { getDateString } from '../getDateString';
 import { incrementStorageId } from '../localStorage';
 import { TodoType } from '../utilTypes';
 import { Action } from './actions';
@@ -19,8 +18,8 @@ const reducer = (
         status: action.status,
         isImportant: false,
         goalDate: action.goalDate,
-        createdAt: getTodayDate(),
-        updatedAt: getTodayDate(),
+        createdAt: getDateString(),
+        updatedAt: getDateString(),
       });
     case 'DELETE':
       return state.filter((todo: TodoType) => todo.id !== action.id);
@@ -31,7 +30,7 @@ const reducer = (
           : {
               ...todo,
               [action.name]: action.value,
-              updatedAt: getTodayDate(),
+              updatedAt: getDateString(),
             },
       );
     default:

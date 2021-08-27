@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import Arrow from '../../assets/Arrow';
 import { STATUS } from 'src/utils/constants';
 import Check from 'src/assets/Check';
+import { getDateString } from 'src/utils/getDateString';
 
 const statusList = [STATUS.NOT_STARTED, STATUS.ONGOING, STATUS.FINISHED];
 
@@ -32,9 +33,7 @@ const TodoHeader: React.FC = () => {
     dispatch({
       type: 'ADD',
       taskName: todoText,
-      goalDate: `${goalDate.getFullYear()}-${(goalDate.getMonth() + 1)
-        .toString()
-        .padStart(2, '0')}-${goalDate.getDate().toString().padStart(2, '0')}`,
+      goalDate: getDateString(goalDate),
       status: todoStatus,
     });
     setTodoText('');
@@ -42,7 +41,6 @@ const TodoHeader: React.FC = () => {
   };
 
   const handleStatusChange = (event: any) => {
-    console.log('change');
     const {
       target: { value },
     } = event;
@@ -52,7 +50,7 @@ const TodoHeader: React.FC = () => {
 
   const ExampleCustomInput = forwardRef(({ value, onClick }: any, ref: any) => (
     <DatePickerButton type="button" onClick={onClick} ref={ref}>
-      {value}
+      {value ? value : 'None'}
     </DatePickerButton>
   ));
 
