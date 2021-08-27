@@ -1,5 +1,5 @@
-import { INITIALTODO, STATUS } from '../constants';
-import { getTodayDate } from '../getTodayDate';
+import { INITIALTODO } from '../constants';
+import { getDateString } from '../getDateString';
 import { incrementStorageId } from '../localStorage';
 import { TodoType } from '../utilTypes';
 import { Action } from './actions';
@@ -14,10 +14,10 @@ const reducer = (
     case 'ADD':
       return state.concat({
         id: incrementStorageId(),
-        taskName: action.text,
-        status: STATUS.NOT_STARTED,
+        taskName: action.taskName,
+        status: action.status,
         isImportant: false,
-        goalDate: '2021-08-31',
+        goalDate: action.goalDate,
         createdAt: Date.now(),
         updatedAt: -Date.now(),
       });
@@ -30,6 +30,7 @@ const reducer = (
           : {
               ...todo,
               [action.name]: action.value,
+
               updatedAt: -Date.now(),
             },
       );

@@ -1,5 +1,4 @@
-export const getTodayDate = (): string => {
-  const date = new Date();
+export const getDateString = (date = new Date()): string => {
   const y = date.getFullYear();
   const m = date.getMonth() + 1;
   const d = date.getDate();
