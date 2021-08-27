@@ -12,7 +12,7 @@ interface TodoItemTypes {
 const Filter: React.FC<TodoItemTypes> = ({ todos }) => {
   const [newArr, setNewArr] = useState<TodoType[]>([]);
   const [modifiedTodos, setModifiedTodos] = useState<TodoType[]>([]);
-  const [status, setStatus] = useState<Status | string>('');
+  // const [status, setStatus] = useState<Status | string>('');
   const [dateType, setDateType] = useState<string>('');
   const [importance, setImportance] = useState<boolean | number | null>(null);
   const {
@@ -38,57 +38,44 @@ const Filter: React.FC<TodoItemTypes> = ({ todos }) => {
         setNewArr(lists);
       }
     };
-    console.log(modifiedTodos);
+
     selectList();
   }, [lists, modifiedTodos, newArr]);
 
-  const onChangeStatus = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>): void => {
-      const target_status: string = e.target.value;
-      setStatus(target_status);
+  const filterStatus = useCallback(
+    (status: any): void => {
+      const filterArr = lists.filter((todo) => todo.status === status);
+      setModifiedTodos(filterArr);
+    },
+    [lists],
+  );
 
-      switch (target_status) {
-        case Status.Ongoing:
-          const ongoing_list: TodoType[] = lists.filter(
-            (todo) => todo.status === Status.Ongoing,
-          );
-          setModifiedTodos(ongoing_list);
-
-          break;
-        case Status.Finished:
-          const finished_list: TodoType[] = lists.filter(
-            (todo) => todo.status === Status.Finished,
-          );
-          setModifiedTodos(finished_list);
-          break;
-        case Status.NotStarted:
-          const not_started_list: TodoType[] = lists.filter(
-            (todo) => todo.status === Status.NotStarted,
-          );
-          setModifiedTodos(not_started_list);
-          break;
-        default:
+  const filterImportanc = useCallback(
+    (isImportant: any): void => {
+      if (isImportant) {
+        setModifiedTodos(lists.filter((todo) => todo.isImportant));
+        setImportance(false);
+      }
+      if (!isImportant) {
+        setModifiedTodos(lists.filter((todo) => !todo.isImportant));
+        setImportance(true);
       }
     },
     [lists],
   );
 
+  const onChangeStatus = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>): void => {
+      filterStatus(e.target.value);
+    },
+    [filterStatus],
+  );
+
   const onChangeImportance = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>): void => {
-      setImportance(Number(e.target.value));
-
-      if (importance) {
-        const important_list = lists.filter((todo) => todo.isImportant);
-        setModifiedTodos(important_list);
-        setImportance(false);
-      }
-      if (!importance) {
-        const unimportant_list = lists.filter((todo) => !todo.isImportant);
-        setModifiedTodos(unimportant_list);
-        setImportance(true);
-      }
+      filterImportanc(Number(e.target.value));
     },
-    [importance, lists],
+    [filterImportanc],
   );
 
   const sortDateType = (e: React.ChangeEvent<HTMLSelectElement>): void => {
@@ -231,3 +218,6 @@ const TodoItemContainer = styled.li<{ isdragging: boolean }>`
     font-size: 1.2rem;
   }
 `;
+function ongoing_list(ongoing_list: any) {
+  throw new Error('Function not implemented.');
+}
