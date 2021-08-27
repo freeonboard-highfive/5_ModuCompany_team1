@@ -52,7 +52,7 @@ const TodoItem: React.FC<TodoItemTypes> = ({ todo }) => {
         </TodoTextContent>
       </TodoContainer>
       <TodoSubContent>
-        <DateBox>
+        <DateBox status={todo.status}>
           <Date />
           {todo.goalDate}
         </DateBox>
@@ -138,10 +138,12 @@ const TodoButton = styled.button`
   cursor: pointer;
 `;
 
-const DateBox = styled.div`
+const DateBox = styled.div<{ status: string }>`
   display: flex;
   align-items: center;
   font-size: 15px;
+  color: ${(props) =>props.status === STATUS.FINISHED && '#ddd'};
+  text-decoration: ${(props) => props.status === STATUS.FINISHED && 'line-through'};
 
   & svg {
     fill: #b8bcca;
