@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { TodoType } from 'src/utils/utilTypes';
 import { Status, DateType, IMPORTANCE } from 'src/utils/filterEnum';
 import useDragList from 'src/hooks/useDragList';
+import { useDispatch } from 'src/utils/context';
 
 interface TodoItemTypes {
   _todos: TodoType[];
@@ -14,16 +15,11 @@ const Filter: React.FC<TodoItemTypes> = ({ _todos }) => {
   const [status, setStatus] = useState<Status | string>('');
   const [dateType, setDateType] = useState<string>('');
   const [importance, setImportance] = useState<boolean | number | null>(null);
-  const {
-    lists,
-    isDragging,
-    handleDragStart,
-    handleDragEnter,
-    handleDragEnd,
-    handleDragOver,
-    handleDragDrop,
-    dragItemIndex,
-  } = useDragList(_todos);
+  const dispatch = useDispatch();
+  const todoDragList = useDragList(_todos, (todo: TodoType[]) =>
+    dispatch({ type: 'SET', todoState: todo }),
+  );
+  const modifiedDragList = useDragList(modifiedTodos, setModifiedTodos);
 
   const onChangeStatus = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const target_status: string = e.target.value;
@@ -31,22 +27,22 @@ const Filter: React.FC<TodoItemTypes> = ({ _todos }) => {
 
     switch (target_status) {
       case Status.ONGOING:
-        const ongoing_list = lists.filter(
+        const ongoing_list = _todos.filter(
           (todo) => todo.status === Status.ONGOING,
         );
-        setModifiedTodos(ongoing_list);
+        setModifiedTodos([...ongoing_list]);
         break;
       case Status.FINISHED:
-        const finished_list = lists.filter(
+        const finished_list = _todos.filter(
           (todo) => todo.status === Status.FINISHED,
         );
-        setModifiedTodos(finished_list);
+        setModifiedTodos([...finished_list]);
         break;
       case Status.NOT_STARTED:
-        const not_started_list = lists.filter(
+        const not_started_list = _todos.filter(
           (todo) => todo.status === Status.NOT_STARTED,
         );
-        setModifiedTodos(not_started_list);
+        setModifiedTodos([...not_started_list]);
         break;
       default:
     }
@@ -58,13 +54,13 @@ const Filter: React.FC<TodoItemTypes> = ({ _todos }) => {
     setImportance(Number(e.target.value));
 
     if (importance) {
-      const important_list = lists.filter((todo) => !todo.isImportant);
-      setModifiedTodos(important_list);
+      const important_list = _todos.filter((todo) => !todo.isImportant);
+      setModifiedTodos([...important_list]);
       setImportance(false);
     }
     if (!importance) {
-      const unimportant_list = lists.filter((todo) => todo.isImportant);
-      setModifiedTodos(unimportant_list);
+      const unimportant_list = _todos.filter((todo) => todo.isImportant);
+      setModifiedTodos([...unimportant_list]);
       setImportance(true);
     }
   };
@@ -75,21 +71,21 @@ const Filter: React.FC<TodoItemTypes> = ({ _todos }) => {
 
     switch (date_type) {
       case DateType.GoalDate:
-        const by_goal_date = lists.sort(
+        const by_goal_date = _todos.sort(
           (creat1: TodoType, creat2: TodoType) =>
             Date.parse(creat1.goalDate) - Date.parse(creat2.goalDate),
         );
         setModifiedTodos(by_goal_date);
         break;
       case DateType.CreatedAt:
-        const by_create_date = lists.sort(
+        const by_create_date = _todos.sort(
           (creat1: TodoType, creat2: TodoType) =>
             Date.parse(creat2.createdAt) - Date.parse(creat1.createdAt),
         );
         setModifiedTodos(by_create_date);
         break;
       case DateType.UpdatedAt:
-        const by_update_date = lists.sort(
+        const by_update_date = _todos.sort(
           (creat1: TodoType, creat2: TodoType) =>
             Date.parse(creat2.updatedAt) - Date.parse(creat1.updatedAt),
         );
@@ -134,22 +130,43 @@ const Filter: React.FC<TodoItemTypes> = ({ _todos }) => {
 
       <TodoLists>
         {modifiedTodos.length
-          ? modifiedTodos.map((todo) => {
-              return <TodoItem key={todo.id} todo={todo} />;
-            })
-          : lists.map((todo, index) => {
+          ? modifiedDragList.lists.map((todo, index) => {
               return (
                 <TodoItemContainer
                   key={todo.id}
                   draggable
-                  onDragStart={(e) => handleDragStart(e, index)}
-                  onDragEnter={
-                    isDragging ? (e) => handleDragEnter(e, index) : () => {}
+                  onDragStart={(e) =>
+                    modifiedDragList.handleDragStart(e, index)
                   }
-                  onDragOver={handleDragOver}
-                  onDragEnd={handleDragEnd}
-                  onDrop={handleDragDrop}
-                  isdragging={dragItemIndex.current === index}
+                  onDragEnter={
+                    modifiedDragList.isDragging
+                      ? (e) => modifiedDragList.handleDragEnter(e, index)
+                      : () => {}
+                  }
+                  onDragOver={modifiedDragList.handleDragOver}
+                  onDragEnd={modifiedDragList.handleDragEnd}
+                  onDrop={modifiedDragList.handleDragDrop}
+                  isdragging={modifiedDragList.dragItemIndex.current === index}
+                >
+                  <TodoItem todo={todo} />
+                </TodoItemContainer>
+              );
+            })
+          : todoDragList.lists.map((todo, index) => {
+              return (
+                <TodoItemContainer
+                  key={todo.id}
+                  draggable
+                  onDragStart={(e) => todoDragList.handleDragStart(e, index)}
+                  onDragEnter={
+                    todoDragList.isDragging
+                      ? (e) => todoDragList.handleDragEnter(e, index)
+                      : () => {}
+                  }
+                  onDragOver={todoDragList.handleDragOver}
+                  onDragEnd={todoDragList.handleDragEnd}
+                  onDrop={todoDragList.handleDragDrop}
+                  isdragging={todoDragList.dragItemIndex.current === index}
                 >
                   <TodoItem todo={todo} />
                 </TodoItemContainer>

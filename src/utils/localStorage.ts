@@ -2,10 +2,10 @@ import { INITIALTODO, STORAGE_KEY } from './constants';
 import { TodoType } from './utilTypes';
 
 export const saveLocalStorage = (
-  strorageItem: TodoType[],
+  storageItem: TodoType[],
   storageKey: string = STORAGE_KEY,
 ): void => {
-  const itemString = JSON.stringify(strorageItem);
+  const itemString = JSON.stringify(storageItem);
   localStorage.setItem(storageKey, itemString);
 };
 
