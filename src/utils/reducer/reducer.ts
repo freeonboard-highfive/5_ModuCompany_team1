@@ -17,7 +17,6 @@ const reducer = (
         taskName: action.taskName,
         status: action.status,
         isImportant: false,
-
         goalDate: action.goalDate,
         createdAt: Date.now(),
         updatedAt: -Date.now(),

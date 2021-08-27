@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TodoItem from 'src/components/todoItem/TodoItem';
 import styled from 'styled-components';
 import { TodoType } from 'src/utils/utilTypes';
@@ -6,17 +6,14 @@ import { Status, DateType, IMPORTANCE } from 'src/utils/filterEnum';
 import useDragList from 'src/hooks/useDragList';
 import { INITIALTODO } from 'src/utils/constants';
 import { useTodoState } from 'src/utils/context';
+import { filterDate, filterImportance, filterStatus } from 'src/utils/filters';
 
 const Filter: React.FC = () => {
   const _todos = useTodoState();
   const [modifiedTodos, setModifiedTodos] = useState<TodoType[]>(INITIALTODO);
-  const [status, setStatus] = useState<Status | string>(Status.ALL);
-  const [dateType, setDateType] = useState<DateType | string>(
-    DateType.CreatedAt,
-  );
-  const [importance, setImportance] = useState<IMPORTANCE | string>(
-    IMPORTANCE.All,
-  );
+  const [status, setStatus] = useState<string>(Status.ALL);
+  const [dateType, setDateType] = useState<string>(DateType.CreatedAt);
+  const [importance, setImportance] = useState<string>(IMPORTANCE.All);
   const {
     lists,
     isDragging,
@@ -28,66 +25,14 @@ const Filter: React.FC = () => {
     dragItemIndex,
   } = useDragList(modifiedTodos, setModifiedTodos);
 
-  const filterDate = (dateType: string): TodoType[] => {
-    switch (dateType) {
-      case DateType.GoalDate:
-        const goalSort = modifiedTodos.sort(
-          (creat1: TodoType, creat2: TodoType) =>
-            Date.parse(creat1.goalDate) - Date.parse(creat2.goalDate),
-        );
-        return [...goalSort];
-      case DateType.CreatedAt:
-        const createSort = modifiedTodos.sort(
-          (creat1: TodoType, creat2: TodoType) =>
-            creat1.createdAt - creat2.createdAt,
-        );
-        return [...createSort];
-      case DateType.UpdatedAt:
-        const updateSort = modifiedTodos.sort(
-          (creat1: TodoType, creat2: TodoType) =>
-            creat1.updatedAt - creat2.updatedAt,
-        );
-        return [...updateSort];
-      default:
-        return modifiedTodos;
-    }
-  };
-
-  const filterImportance = useCallback(
-    (arr: TodoType[]): TodoType[] => {
-      switch (importance) {
-        case IMPORTANCE.true:
-          return arr.filter((todo: TodoType) => todo.isImportant);
-        case IMPORTANCE.false:
-          return arr.filter((todo: TodoType) => !todo.isImportant);
-        default:
-          return arr;
-      }
-    },
-    [importance],
-  );
-
-  const filterTodoStatus = useCallback((): void => {
-    if (status === Status.ALL) {
-      const sortimportance: TodoType[] = filterImportance(lists);
-      return setModifiedTodos(sortimportance);
-    }
-
-    const filteredTodo: TodoType[] = lists.filter(
-      (todo: TodoType) => todo.status === status,
+  useEffect(() => {
+    const filteredTodo = filterImportance(
+      filterDate(filterStatus(_todos, status), dateType),
+      importance,
     );
-    const importanceArr = filterImportance(filteredTodo);
-    return setModifiedTodos(importanceArr);
-  }, [lists, status, filterImportance]);
-
-  useEffect(() => {
-    filterTodoStatus();
-  }, [filterTodoStatus]);
-
-  useEffect(() => {
-    const sortedArr = filterDate(dateType);
-    setModifiedTodos(sortedArr);
-  }, [dateType]);
+    setModifiedTodos(filteredTodo);
+    console.log(status, dateType, importance);
+  }, [status, dateType, importance, _todos]);
 
   const onChangeStatus = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const target_status: string = e.target.value;
@@ -97,15 +42,12 @@ const Filter: React.FC = () => {
   const onChangeImportance = (
     e: React.ChangeEvent<HTMLSelectElement>,
   ): void => {
-
     setImportance(e.target.value);
-
   };
 
   const sortDateType = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const date_type: string = e.target.value;
     setDateType(date_type);
-
   };
 
   return (
