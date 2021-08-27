@@ -1,12 +1,12 @@
 import { useDispatch } from 'src/utils/context';
-import React, { forwardRef, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import DatePicker from 'react-datepicker';
-import Arrow from '../../assets/Arrow';
+import Arrow from 'src/assets/Arrow';
 import { STATUS } from 'src/utils/constants';
 import Check from 'src/assets/Check';
 import { getDateString } from 'src/utils/getDateString';
-import { ExampleCustomInput } from '../datePicker/DatePickerButton';
+import { ExampleCustomInput } from 'src/components/datePicker/DatePickerButton';
 
 const statusList = [STATUS.NOT_STARTED, STATUS.ONGOING, STATUS.FINISHED];
 
@@ -122,6 +122,7 @@ const HeaderContainer = styled.header`
   max-width: 768px;
   position: sticky;
   top: 20px;
+  z-index: 2;
 `;
 
 const TodoForm = styled.form`
@@ -129,8 +130,8 @@ const TodoForm = styled.form`
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  backdrop-filter: blur(14px) saturate(180%);
-  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  backdrop-filter: blur(8px) saturate(180%);
+  -webkit-backdrop-filter: blur(8px) saturate(180%);
   background-color: rgba(255, 255, 255, 0.75);
   border-radius: 12px;
   border: 1px solid rgba(209, 213, 219, 0.3);
