@@ -1,11 +1,10 @@
-import { INITIALTODO } from '../constants';
-import { getDateString } from '../getDateString';
+import { INITIAL_TODO } from '../constants';
 import { incrementStorageId } from '../localStorage';
 import { TodoType } from '../utilTypes';
 import { Action } from './actions';
 
 const reducer = (
-  state: TodoType[] = INITIALTODO,
+  state: TodoType[] = INITIAL_TODO,
   action: Action,
 ): TodoType[] => {
   switch (action.type) {
@@ -19,7 +18,7 @@ const reducer = (
         isImportant: false,
         goalDate: action.goalDate,
         createdAt: Date.now(),
-        updatedAt: -Date.now(),
+        updatedAt: Date.now(),
       });
     case 'DELETE':
       return state.filter((todo: TodoType) => todo.id !== action.id);
@@ -30,8 +29,7 @@ const reducer = (
           : {
               ...todo,
               [action.name]: action.value,
-
-              updatedAt: -Date.now(),
+              updatedAt: Date.now(),
             },
       );
     default:

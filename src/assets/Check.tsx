@@ -19,7 +19,7 @@ const Check: React.FC = () => {
           fill="#fff"
           transform="matrix(.0436 0 0 .0436 8.177 1039.72)"
           stroke="none"
-          stroke-width="9.512"
+          strokeWidth="9.512"
         />
       </g>
     </svg>

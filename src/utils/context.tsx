@@ -5,7 +5,7 @@ import React, {
   useContext,
   useReducer,
 } from 'react';
-import { INITIALTODO } from './constants';
+import { INITIAL_TODO } from './constants';
 import { TodoType } from './utilTypes';
 import reducer from './reducer/reducer';
 import { Action } from './reducer/actions';
@@ -24,7 +24,7 @@ export const TodoContext = createContext<TodoType[] | null>(null);
 export const DispatchContext = createContext<DispatchAction | null>(null);
 
 const ToDosProvider: React.FC<ChildrenTypes> = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, INITIALTODO);
+  const [state, dispatch] = useReducer(reducer, INITIAL_TODO);
   return (
     <TodoContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>
