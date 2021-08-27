@@ -1,5 +1,4 @@
 import { INITIALTODO, STATUS } from '../constants';
-import { getTodayDate } from '../getTodayDate';
 import { incrementStorageId } from '../localStorage';
 import { TodoType } from '../utilTypes';
 import { Action } from './actions';
@@ -19,7 +18,7 @@ const reducer = (
         isImportant: false,
         goalDate: '2021-08-31',
         createdAt: Date.now(),
-        updatedAt: -Date.now(),
+        updatedAt: Date.now(),
       });
     case 'DELETE':
       return state.filter((todo: TodoType) => todo.id !== action.id);
@@ -30,7 +29,7 @@ const reducer = (
           : {
               ...todo,
               [action.name]: action.value,
-              updatedAt: -Date.now(),
+              updatedAt: Date.now(),
             },
       );
     default:

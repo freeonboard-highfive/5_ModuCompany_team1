@@ -17,6 +17,12 @@ export const TODO_KEYS: TodoFormatTypes = {
   updatedAt: 'updatedAt',
 };
 
+export const SELECTNAME = {
+  status: 'Status',
+  date: 'Date',
+  importance: 'Importance',
+};
+
 export const STORAGE_KEY: string = 'toDos';
 
 export const INITIALTODO: [] = [];
