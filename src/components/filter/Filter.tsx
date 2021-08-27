@@ -26,7 +26,7 @@ const Filter: React.FC = () => {
     handleDragOver,
     handleDragDrop,
     dragItemIndex,
-  } = useDragList(_todos);
+  } = useDragList(modifiedTodos, setModifiedTodos);
 
   const filterDate = (dateType: string): TodoType[] => {
     switch (dateType) {
@@ -97,12 +97,15 @@ const Filter: React.FC = () => {
   const onChangeImportance = (
     e: React.ChangeEvent<HTMLSelectElement>,
   ): void => {
+
     setImportance(e.target.value);
+
   };
 
   const sortDateType = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const date_type: string = e.target.value;
     setDateType(date_type);
+
   };
 
   return (
@@ -130,7 +133,7 @@ const Filter: React.FC = () => {
         </SelectBox>
       </SelectBoxes>
       <TodoLists>
-        {modifiedTodos.map((todo, index) => (
+        {lists.map((todo, index) => (
           <TodoItemContainer
             key={todo.id}
             draggable
