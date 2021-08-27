@@ -31,7 +31,6 @@ const Filter: React.FC = () => {
       importance,
     );
     setModifiedTodos(filteredTodo);
-    console.log(status, dateType, importance);
   }, [status, dateType, importance, _todos]);
 
   const onChangeStatus = (e: React.ChangeEvent<HTMLSelectElement>): void => {
@@ -110,6 +109,7 @@ const SelectBox = styled.select`
   appearance: none;
   background: url('https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg')
     no-repeat 100% 50%;
+    background-size: 20px;
   &::-ms-expand {
     display: none;
   }
@@ -118,7 +118,9 @@ const SelectBox = styled.select`
   }
   width: 200px;
   padding: 10px 15px;
-  border: 1px solid lightgray;
+  border: none;
+  border-bottom: 1px solid lightgray;
+  outline: none;
   font-size: 16px;
   color: #646363;
 `;

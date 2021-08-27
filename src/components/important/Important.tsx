@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch } from 'src/utils/context';
 import { TodoType } from 'src/utils/utilTypes';
 import { FilledStar, NotFilledStar } from 'src/assets/Stars'

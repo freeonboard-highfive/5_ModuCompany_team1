@@ -1,5 +1,4 @@
 import { INITIALTODO } from '../constants';
-import { getDateString } from '../getDateString';
 import { incrementStorageId } from '../localStorage';
 import { TodoType } from '../utilTypes';
 import { Action } from './actions';
