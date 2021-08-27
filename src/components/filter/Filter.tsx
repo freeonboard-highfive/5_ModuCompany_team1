@@ -112,7 +112,7 @@ export default React.memo(Filter);
 const SelectBoxes = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 50px 30px 20px;
+  padding: 50px 0 30px;
   margin-bottom: 15px;
   border-bottom: 1px solid lightgray;
 `;
@@ -121,18 +121,20 @@ const SelectBox = styled.select`
   -moz-appearance: none;
   appearance: none;
   background: url('https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg')
-    no-repeat 95% 50%;
+    no-repeat 100% 50%;
+    background-size: 20px;
   &::-ms-expand {
     display: none;
   }
   &:focus {
     outline: none;
   }
-  width: 240px;
-  padding: 17px 20px 16px 20px;
-  border: 1px solid lightgray;
-  border-radius: 50px;
-  font-size: 19px;
+  width: 200px;
+  padding: 10px 15px;
+  border: none;
+  border-bottom: 1px solid lightgray;
+  outline: none;
+  font-size: 16px;
   color: #646363;
 `;
 const TodoLists = styled.ul`
