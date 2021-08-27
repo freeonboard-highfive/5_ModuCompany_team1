@@ -33,6 +33,12 @@ const TodoItem: React.FC<TodoItemTypes> = ({ todo }) => {
     });
   };
 
+  const handleDeleteItem = () => {
+    if (window.confirm('정말 삭제하시겠습니까')) {
+      dispatch({ type: 'DELETE', id: todo.id });
+    }
+  };
+
   return (
     <Todo>
       <TodoHeader>
@@ -58,9 +64,7 @@ const TodoItem: React.FC<TodoItemTypes> = ({ todo }) => {
               </TodoImportance>
             </TextBox>
 
-            <TodoButton
-              onClick={(): void => dispatch({ type: 'DELETE', id: todo.id })}
-            >
+            <TodoButton onClick={handleDeleteItem}>
               <Trash />
             </TodoButton>
           </TodoTextBox>
