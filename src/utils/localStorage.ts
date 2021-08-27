@@ -1,4 +1,4 @@
-import { INITIALTODO, STORAGE_KEY } from './constants';
+import { INITIAL_TODO, STORAGE_KEY } from './constants';
 import { TodoType } from './utilTypes';
 
 export const saveLocalStorage = (
@@ -13,7 +13,7 @@ export const loadLocalStorage = (
   storageKey: string = STORAGE_KEY,
 ): TodoType[] => {
   const storageItem = localStorage.getItem(storageKey);
-  if (storageItem === null) return INITIALTODO;
+  if (storageItem === null) return INITIAL_TODO;
 
   return JSON.parse(storageItem);
 };

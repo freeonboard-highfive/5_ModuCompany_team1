@@ -17,7 +17,7 @@ export const TODO_KEYS: TodoFormatTypes = {
   updatedAt: 'updatedAt',
 };
 
-export const SELECTNAME = {
+export const SELECT_NAME = {
   status: 'Status',
   date: 'Date',
   importance: 'Importance',
@@ -25,7 +25,7 @@ export const SELECTNAME = {
 
 export const STORAGE_KEY: string = 'toDos';
 
-export const INITIALTODO: [] = [];
+export const INITIAL_TODO: [] = [];
 
 export const ActionTypes = {
   ADD: 'ADD',

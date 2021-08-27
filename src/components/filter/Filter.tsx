@@ -5,7 +5,7 @@ import { TodoType } from 'src/utils/utilTypes';
 import { Status, DateType, IMPORTANCE } from 'src/utils/filterEnum';
 import useDragList from 'src/hooks/useDragList';
 import { useTodoState } from 'src/utils/context';
-import { SELECTNAME } from 'src/utils/constants';
+import { SELECT_NAME } from 'src/utils/constants';
 import { filterDate, filterImportance, filterStatus } from 'src/utils/filters';
 
 const Filter: React.FC = () => {
@@ -40,13 +40,13 @@ const Filter: React.FC = () => {
       target: { name, value },
     } = event;
     switch (name) {
-      case SELECTNAME.status:
+      case SELECT_NAME.status:
         setStatus(value);
         return;
-      case SELECTNAME.date:
+      case SELECT_NAME.date:
         setDateType(value);
         return;
-      case SELECTNAME.importance:
+      case SELECT_NAME.importance:
         setImportance(value);
         return;
       default:
@@ -58,8 +58,8 @@ const Filter: React.FC = () => {
     <>
       <SelectBoxes>
         <SelectBox
-          name={SELECTNAME.status}
-          id={SELECTNAME.status}
+          name={SELECT_NAME.status}
+          id={SELECT_NAME.status}
           onChange={onSelectChange}
         >
           <option defaultValue={Status.ALL}>All</option>
@@ -68,8 +68,8 @@ const Filter: React.FC = () => {
           <option value={Status.NOT_STARTED}>Not Started</option>
         </SelectBox>
         <SelectBox
-          name={SELECTNAME.date}
-          id={SELECTNAME.date}
+          name={SELECT_NAME.date}
+          id={SELECT_NAME.date}
           onChange={onSelectChange}
         >
           <option value={DateType.CreatedAt}>latest creation order</option>
@@ -77,8 +77,8 @@ const Filter: React.FC = () => {
           <option value={DateType.GoalDate}>close to the deadline</option>
         </SelectBox>
         <SelectBox
-          name={SELECTNAME.importance}
-          id={SELECTNAME.importance}
+          name={SELECT_NAME.importance}
+          id={SELECT_NAME.importance}
           onChange={onSelectChange}
         >
           <option value={IMPORTANCE.All}>All</option>
@@ -107,7 +107,7 @@ const Filter: React.FC = () => {
     </>
   );
 };
-export default Filter;
+export default React.memo(Filter);
 
 const SelectBoxes = styled.div`
   display: flex;

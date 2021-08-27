@@ -120,6 +120,8 @@ const TodoHeader: React.FC = () => {
   );
 };
 
+export default React.memo(TodoHeader);
+
 const HeaderContainer = styled.header`
   width: 100%;
   max-width: 768px;
@@ -251,5 +253,3 @@ const TodoSubmit = styled.button`
     fill: #575ac3;
   }
 `;
-
-export default React.memo(TodoHeader);

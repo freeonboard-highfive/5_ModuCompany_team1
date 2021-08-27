@@ -1,10 +1,10 @@
-import { INITIALTODO, STATUS } from '../constants';
+import { INITIAL_TODO } from '../constants';
 import { incrementStorageId } from '../localStorage';
 import { TodoType } from '../utilTypes';
 import { Action } from './actions';
 
 const reducer = (
-  state: TodoType[] = INITIALTODO,
+  state: TodoType[] = INITIAL_TODO,
   action: Action,
 ): TodoType[] => {
   switch (action.type) {
