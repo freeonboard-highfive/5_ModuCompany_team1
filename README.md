@@ -109,7 +109,7 @@ Demo Link: https://modu-todolist.netlify.app/
 | 김민기 | Task생성, 수정, 삭제         |
 | 김은태 | Task상태값 설정, 중요도 설정 |
 | 김효진 | Task 조회 기능               |
-| 이시형 | Task Drag&Drop 기능          |
+| 이시형 | Task Drag&Drop 기능, UI 구성 |
 
 <br/><br/>
 
