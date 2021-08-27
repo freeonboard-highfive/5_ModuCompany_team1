@@ -6,8 +6,8 @@ export interface TodoType {
   status: string;
   isImportant: boolean;
   goalDate: string;
-  createdAt: number;
-  updatedAt: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface TodoFormatTypes {

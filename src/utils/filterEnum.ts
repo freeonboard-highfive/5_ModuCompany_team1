@@ -1,18 +1,16 @@
 export enum Status {
   FINISHED = 'Done',
   ONGOING = 'Doing',
-  NOT_STARTED = 'Todo',
-  ALL = 'All',
+  NOT_STARTED = 'Todo'
 }
 
 export enum DateType {
   GoalDate = 'goalDate',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
+  CreatedAt ='createdAt',
+  UpdatedAt = 'updatedAt'
 }
 
 export enum IMPORTANCE {
-  All = 'All',
-  true = 'Important',
-  false = 'NotImportant',
+  true = 1,
+  false = 0,
 }
