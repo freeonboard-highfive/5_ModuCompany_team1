@@ -189,9 +189,13 @@ const Buttons = styled.div`
 `;
 
 const StatusButton = styled.button<{ status: string }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
   padding: 6px 20px;
   position: relative;
+  font-size: 12px;
   border-radius: 5px;
   background-color: ${(props) =>
     props.status === STATUS.ONGOING

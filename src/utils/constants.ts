@@ -1,9 +1,9 @@
 import { StatusTypes, TodoFormatTypes } from './utilTypes';
 
 export const STATUS: StatusTypes = {
-  FINISHED: 'Done',
-  ONGOING: 'Doing',
-  NOT_STARTED: 'Todo',
+  FINISHED: 'Finished',
+  ONGOING: 'Ongoing',
+  NOT_STARTED: 'Not Started',
   INITIAL: 'Status',
 };
 
