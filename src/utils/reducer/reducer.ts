@@ -17,9 +17,10 @@ const reducer = (
         taskName: action.taskName,
         status: action.status,
         isImportant: false,
+
         goalDate: action.goalDate,
-        createdAt: getDateString(),
-        updatedAt: getDateString(),
+        createdAt: Date.now(),
+        updatedAt: -Date.now(),
       });
     case 'DELETE':
       return state.filter((todo: TodoType) => todo.id !== action.id);
@@ -30,7 +31,8 @@ const reducer = (
           : {
               ...todo,
               [action.name]: action.value,
-              updatedAt: getDateString(),
+
+              updatedAt: -Date.now(),
             },
       );
     default:

@@ -61,6 +61,7 @@ const TodoHeader: React.FC = () => {
           <Label>
             <h3>TASK NAME</h3>
             <TodoInput
+              required
               type="text"
               placeholder="What are your plans for today?"
               onChange={todoTextChange}

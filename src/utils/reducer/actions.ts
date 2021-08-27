@@ -5,3 +5,4 @@ export type Action =
   | { type: 'DELETE'; id: number }
   | { type: 'EDIT'; id: number; name: string; value: string | boolean }
   | { type: 'SET'; todoState: TodoType[] };
+

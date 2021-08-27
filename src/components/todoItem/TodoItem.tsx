@@ -2,11 +2,12 @@ import { TodoType } from 'src/utils/utilTypes';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import EditTodo from './EditTodo';
-import { FilledStar } from '../../assets/Stars';
 import { useDispatch } from 'src/utils/context';
 import Status from '../status/Status';
 import { STATUS } from 'src/utils/constants';
 import Date from 'src/assets/Date';
+import Important from '../important/Important';
+import { Trash } from 'src/assets/Trash';
 
 interface TodoItemTypes {
   todo: TodoType;
@@ -24,7 +25,7 @@ const TodoItem: React.FC<TodoItemTypes> = ({ todo }) => {
     <Todo>
       <TodoHeader>
         <Status todo={todo} />
-        <FilledStar />
+        <Important todo={todo} />
       </TodoHeader>
       <TodoContainer status={todo.status}>
         <TodoTextContent>
@@ -45,7 +46,7 @@ const TodoItem: React.FC<TodoItemTypes> = ({ todo }) => {
             <TodoButton
               onClick={(): void => dispatch({ type: 'DELETE', id: todo.id })}
             >
-              D
+              <Trash />
             </TodoButton>
           </TodoTextBox>
         </TodoTextContent>
