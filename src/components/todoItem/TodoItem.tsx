@@ -34,7 +34,7 @@ const TodoItem: React.FC<TodoItemTypes> = ({ todo }) => {
               {editMode ? (
                 <EditTodo toggleEditMode={toggleEditMode} todo={todo} />
               ) : (
-                <TodoText onClick={(): void => toggleEditMode()}>
+                <TodoText status={todo.status} onClick={(): void => toggleEditMode()}>
                   {todo.taskName}
                 </TodoText>
               )}
@@ -111,9 +111,11 @@ const TextBox = styled.div`
   width: 100%;
 `;
 
-const TodoText = styled.span`
+const TodoText = styled.span<{ status: string }>`
   font-size: 18px;
   font-weight: bold;
+  color: ${(props) =>props.status === STATUS.FINISHED && '#ddd'};
+  text-decoration: ${(props) => props.status === STATUS.FINISHED && 'line-through'};
 `;
 
 const TodoImportance = styled.div`
