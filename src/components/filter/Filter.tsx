@@ -4,14 +4,14 @@ import styled from 'styled-components';
 import { TodoType } from 'src/utils/utilTypes';
 import { Status, DateType, IMPORTANCE } from 'src/utils/filterEnum';
 import useDragList from 'src/hooks/useDragList';
-import { INITIALTODO } from 'src/utils/constants';
 import { useTodoState } from 'src/utils/context';
+import { SELECT_NAME } from 'src/utils/constants';
 import { filterDate, filterImportance, filterStatus } from 'src/utils/filters';
 
 const Filter: React.FC = () => {
   const _todos = useTodoState();
-  const [modifiedTodos, setModifiedTodos] = useState<TodoType[]>(INITIALTODO);
-  const [status, setStatus] = useState<string>(Status.ALL);
+  const [modifiedTodos, setModifiedTodos] = useState<TodoType[]>([]);
+  const [status, setStatus] = useState<Status | string>(Status.ALL);
   const [dateType, setDateType] = useState<string>(DateType.CreatedAt);
   const [importance, setImportance] = useState<string>(IMPORTANCE.All);
   const {
@@ -33,40 +33,53 @@ const Filter: React.FC = () => {
     setModifiedTodos(filteredTodo);
   }, [status, dateType, importance, _todos]);
 
-  const onChangeStatus = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    const target_status: string = e.target.value;
-    setStatus(target_status);
-  };
-
-  const onChangeImportance = (
-    e: React.ChangeEvent<HTMLSelectElement>,
+  const onSelectChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
   ): void => {
-    setImportance(e.target.value);
-  };
-
-  const sortDateType = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    const date_type: string = e.target.value;
-    setDateType(date_type);
+    const {
+      target: { name, value },
+    } = event;
+    switch (name) {
+      case SELECT_NAME.status:
+        setStatus(value);
+        return;
+      case SELECT_NAME.date:
+        setDateType(value);
+        return;
+      case SELECT_NAME.importance:
+        setImportance(value);
+        return;
+      default:
+        return;
+    }
   };
 
   return (
     <>
       <SelectBoxes>
-        <SelectBox name="Status" id="Status" onChange={onChangeStatus}>
+        <SelectBox
+          name={SELECT_NAME.status}
+          id={SELECT_NAME.status}
+          onChange={onSelectChange}
+        >
           <option defaultValue={Status.ALL}>All</option>
           <option value={Status.FINISHED}>Finished</option>
           <option value={Status.ONGOING}>Ongoing</option>
           <option value={Status.NOT_STARTED}>Not Started</option>
         </SelectBox>
-        <SelectBox name="Date" id="Date" onChange={sortDateType}>
+        <SelectBox
+          name={SELECT_NAME.date}
+          id={SELECT_NAME.date}
+          onChange={onSelectChange}
+        >
           <option value={DateType.CreatedAt}>latest creation order</option>
           <option value={DateType.UpdatedAt}>latest update order</option>
           <option value={DateType.GoalDate}>close to the deadline</option>
         </SelectBox>
         <SelectBox
-          name="Importance"
-          id="Importance"
-          onChange={onChangeImportance}
+          name={SELECT_NAME.importance}
+          id={SELECT_NAME.importance}
+          onChange={onSelectChange}
         >
           <option value={IMPORTANCE.All}>All</option>
           <option value={IMPORTANCE.true}>Important ★</option>
@@ -94,7 +107,7 @@ const Filter: React.FC = () => {
     </>
   );
 };
-export default Filter;
+export default React.memo(Filter);
 
 const SelectBoxes = styled.div`
   display: flex;

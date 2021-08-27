@@ -29,7 +29,7 @@ const TodoHeader: React.FC = () => {
     event: React.FormEvent<HTMLFormElement>,
   ): void => {
     event.preventDefault();
-    console.log(goalDate.getMonth());
+
     dispatch({
       type: 'ADD',
       taskName: todoText,
@@ -40,11 +40,13 @@ const TodoHeader: React.FC = () => {
     setIsFocused(false);
   };
 
-  const handleStatusChange = (event: any) => {
+  const handleStatusChange = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ): void => {
     const {
-      target: { value },
+      currentTarget: { value },
     } = event;
-    console.log(event.currentTarget);
+
     setTodoStatus(value);
   };
 
@@ -86,6 +88,7 @@ const TodoHeader: React.FC = () => {
                 <Buttons>
                   {statusList.map((status) => (
                     <StatusButton
+                      key={status}
                       status={status}
                       value={status}
                       onClick={handleStatusChange}
@@ -116,6 +119,8 @@ const TodoHeader: React.FC = () => {
     </HeaderContainer>
   );
 };
+
+export default React.memo(TodoHeader);
 
 const HeaderContainer = styled.header`
   width: 100%;
@@ -248,5 +253,3 @@ const TodoSubmit = styled.button`
     fill: #575ac3;
   }
 `;
-
-export default React.memo(TodoHeader);
