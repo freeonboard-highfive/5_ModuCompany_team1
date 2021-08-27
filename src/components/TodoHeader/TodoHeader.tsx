@@ -6,6 +6,7 @@ import Arrow from '../../assets/Arrow';
 import { STATUS } from 'src/utils/constants';
 import Check from 'src/assets/Check';
 import { getDateString } from 'src/utils/getDateString';
+import { ExampleCustomInput } from '../datePicker/DatePickerButton';
 
 const statusList = [STATUS.NOT_STARTED, STATUS.ONGOING, STATUS.FINISHED];
 
@@ -49,12 +50,6 @@ const TodoHeader: React.FC = () => {
 
     setTodoStatus(value);
   };
-
-  const ExampleCustomInput = forwardRef(({ value, onClick }: any, ref: any) => (
-    <DatePickerButton type="button" onClick={onClick} ref={ref}>
-      {value ? value : 'None'}
-    </DatePickerButton>
-  ));
 
   return (
     <HeaderContainer>
@@ -182,19 +177,6 @@ const SubInputs = styled.div`
   label {
     flex: 1;
   }
-`;
-
-const DatePickerButton = styled.button`
-  border: none;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  color: #223358;
-  height: 27px;
-  width: 60%;
-  border-radius: 5px;
-  font-size: 14px;
-  text-align: center;
 `;
 
 const Buttons = styled.div`

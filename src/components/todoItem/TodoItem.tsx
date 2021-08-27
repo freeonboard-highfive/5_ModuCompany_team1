@@ -4,10 +4,13 @@ import styled from 'styled-components';
 import EditTodo from './EditTodo';
 import { useDispatch } from 'src/utils/context';
 import Status from '../status/Status';
-import { STATUS } from 'src/utils/constants';
-import Date from 'src/assets/Date';
+import { STATUS, TODO_KEYS } from 'src/utils/constants';
 import Important from '../important/Important';
 import { Trash } from 'src/assets/Trash';
+import DatePicker from 'react-datepicker';
+import DateIcon from 'src/assets/DateIcon';
+import { getDateString } from 'src/utils/getDateString';
+import { ExampleCustomInput } from '../datePicker/DatePickerButton';
 
 interface TodoItemTypes {
   todo: TodoType;
@@ -19,6 +22,15 @@ const TodoItem: React.FC<TodoItemTypes> = ({ todo }) => {
 
   const toggleEditMode = (): void => {
     setEditMode(!editMode);
+  };
+
+  const handleGoalDateChange = (date: Date) => {
+    dispatch({
+      type: 'EDIT',
+      id: todo.id,
+      name: TODO_KEYS.goalDate,
+      value: getDateString(date),
+    });
   };
 
   return (
@@ -34,7 +46,10 @@ const TodoItem: React.FC<TodoItemTypes> = ({ todo }) => {
               {editMode ? (
                 <EditTodo toggleEditMode={toggleEditMode} todo={todo} />
               ) : (
-                <TodoText status={todo.status} onClick={(): void => toggleEditMode()}>
+                <TodoText
+                  status={todo.status}
+                  onClick={(): void => toggleEditMode()}
+                >
                   {todo.taskName}
                 </TodoText>
               )}
@@ -53,8 +68,13 @@ const TodoItem: React.FC<TodoItemTypes> = ({ todo }) => {
       </TodoContainer>
       <TodoSubContent>
         <DateBox status={todo.status}>
-          <Date />
-          {todo.goalDate}
+          <DateIcon />
+          <DatePicker
+            selected={new Date(todo.goalDate)}
+            onChange={handleGoalDateChange}
+            customInput={<ExampleCustomInput />}
+            closeOnScroll={true}
+          />
         </DateBox>
       </TodoSubContent>
     </Todo>
@@ -114,8 +134,9 @@ const TextBox = styled.div`
 const TodoText = styled.span<{ status: string }>`
   font-size: 18px;
   font-weight: bold;
-  color: ${(props) =>props.status === STATUS.FINISHED && '#ddd'};
-  text-decoration: ${(props) => props.status === STATUS.FINISHED && 'line-through'};
+  color: ${(props) => props.status === STATUS.FINISHED && '#ddd'};
+  text-decoration: ${(props) =>
+    props.status === STATUS.FINISHED && 'line-through'};
 `;
 
 const TodoImportance = styled.div`
@@ -142,12 +163,13 @@ const DateBox = styled.div<{ status: string }>`
   display: flex;
   align-items: center;
   font-size: 15px;
-  color: ${(props) =>props.status === STATUS.FINISHED && '#ddd'};
-  text-decoration: ${(props) => props.status === STATUS.FINISHED && 'line-through'};
+  color: ${(props) => props.status === STATUS.FINISHED && '#ddd'};
+  text-decoration: ${(props) =>
+    props.status === STATUS.FINISHED && 'line-through'};
+  width: 160px;
 
   & svg {
     fill: #b8bcca;
-    margin-right: 8px;
   }
 `;
 
