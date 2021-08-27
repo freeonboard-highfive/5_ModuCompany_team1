@@ -136,15 +136,15 @@ const TextBox = styled.div`
 `;
 
 const TodoText = styled.span<{ status: string }>`
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
-  color: ${(props) => props.status === STATUS.FINISHED && '#ddd'};
+  color: ${(props) => (props.status === STATUS.FINISHED ? '#ddd' : '#223358')};
   text-decoration: ${(props) =>
     props.status === STATUS.FINISHED && 'line-through'};
 `;
 
 const TodoImportance = styled.div`
-  font-size: 14px;
+  font-size: 12px;
   padding-top: 4px;
   color: #b8bdca;
 `;

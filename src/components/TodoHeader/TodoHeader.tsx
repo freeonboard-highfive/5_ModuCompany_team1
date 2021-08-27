@@ -123,6 +123,7 @@ const HeaderContainer = styled.header`
   position: sticky;
   top: 20px;
   z-index: 2;
+  font-family: 'Noto Sans KR', sans-serif;
 `;
 
 const TodoForm = styled.form`
@@ -148,6 +149,12 @@ const Label = styled.div`
   color: #5f6c87;
   h3 {
     margin-bottom: 8px;
+  }
+
+  .react-datepicker-wrapper {
+    height: 40px;
+    display: flex;
+    align-items: center;
   }
 `;
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TodoItem from 'src/components/todoItem/TodoItem';
 import styled from 'styled-components';
 import { TodoType } from 'src/utils/utilTypes';
-import { Status, DateType, IMPORTANCE } from 'src/utils/filterEnum';
+import { StatusEnum, DateTypeEnum, ImportanceEnum } from 'src/utils/filterEnum';
 import useDragList from 'src/hooks/useDragList';
 import { useTodoState } from 'src/utils/context';
 import { SELECT_NAME } from 'src/utils/constants';
@@ -11,9 +11,9 @@ import { filterDate, filterImportance, filterStatus } from 'src/utils/filters';
 const Filter: React.FC = () => {
   const _todos = useTodoState();
   const [modifiedTodos, setModifiedTodos] = useState<TodoType[]>([]);
-  const [status, setStatus] = useState<Status | string>(Status.ALL);
-  const [dateType, setDateType] = useState<string>(DateType.CreatedAt);
-  const [importance, setImportance] = useState<string>(IMPORTANCE.All);
+  const [status, setStatus] = useState<StatusEnum | string>(StatusEnum.ALL);
+  const [dateType, setDateType] = useState<string>(DateTypeEnum.CreatedAt);
+  const [importance, setImportance] = useState<string>(ImportanceEnum.All);
   const {
     lists,
     isDragging,
@@ -62,28 +62,33 @@ const Filter: React.FC = () => {
           id={SELECT_NAME.status}
           onChange={onSelectChange}
         >
-          <option defaultValue={Status.ALL}>All</option>
-          <option value={Status.FINISHED}>Finished</option>
-          <option value={Status.ONGOING}>Ongoing</option>
-          <option value={Status.NOT_STARTED}>Not Started</option>
+          {Object.values(StatusEnum).map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
         </SelectBox>
         <SelectBox
           name={SELECT_NAME.date}
           id={SELECT_NAME.date}
           onChange={onSelectChange}
         >
-          <option value={DateType.CreatedAt}>latest creation order</option>
-          <option value={DateType.UpdatedAt}>latest update order</option>
-          <option value={DateType.GoalDate}>close to the deadline</option>
+          {Object.values(DateTypeEnum).map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
         </SelectBox>
         <SelectBox
           name={SELECT_NAME.importance}
           id={SELECT_NAME.importance}
           onChange={onSelectChange}
         >
-          <option value={IMPORTANCE.All}>All</option>
-          <option value={IMPORTANCE.true}>Important ★</option>
-          <option value={IMPORTANCE.false}>Not important ☆</option>
+          {Object.values(ImportanceEnum).map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
         </SelectBox>
       </SelectBoxes>
       <TodoLists>
@@ -122,7 +127,7 @@ const SelectBox = styled.select`
   appearance: none;
   background: url('https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg')
     no-repeat 100% 50%;
-    background-size: 20px;
+  background-size: 20px;
   &::-ms-expand {
     display: none;
   }
