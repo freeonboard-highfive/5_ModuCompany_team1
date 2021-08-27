@@ -2,9 +2,10 @@ import { TodoType } from 'src/utils/utilTypes';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import EditTodo from './EditTodo';
-import { FilledStar } from '../../assets/Stars';
 import { useDispatch } from 'src/utils/context';
 import Status from '../status/Status';
+import Important from '../important/Important';
+import { Trash } from 'src/assets/Trash';
 
 interface TodoItemTypes {
   todo: TodoType;
@@ -21,11 +22,11 @@ const TodoItem: React.FC<TodoItemTypes> = ({ todo }) => {
   return (
     <Todo>
       <TodoContent>
+        <Important todo={todo}/>
         {editMode ? (
           <EditTodo toggleEditMode={toggleEditMode} todo={todo} />
         ) : (
           <TodoTextBox>
-            <FilledStar />
             <TextBox onClick={(): void => toggleEditMode()}>
               <TodoText>{todo.taskName}</TodoText>
             </TextBox>
@@ -37,7 +38,7 @@ const TodoItem: React.FC<TodoItemTypes> = ({ todo }) => {
       <TodoButton
         onClick={(): void => dispatch({ type: 'DELETE', id: todo.id })}
       >
-        D
+        <Trash />
       </TodoButton>
     </Todo>
   );

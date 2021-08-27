@@ -1,70 +1,117 @@
-# Getting Started with Create React App
+## 프로젝트 소개
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![modu](https://user-images.githubusercontent.com/66353903/131018778-f5e3c799-4842-4922-99a9-dd4fb6862af6.png)
 
-## Available Scripts
+### 프리온보딩 코스 Modu Company 기업 과제
 
-In the project directory, you can run:
+> ❕ **TypeScript로 Todo Application 구현하기**❗
 
-### `yarn start`
+<br/>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<details>
+    <summary>
+      <STRONG>
+       📚 과제 A: To-Do List App 만들기 (UI) 세부 가이드 보기
+      <STRONG>
+    </summary>
+  <div markdown="1">
+    <h3>세부 가이드</h3><br/>
+    1.1 투두리스트에 적합한 데이터를 구성할 수 있다.<br/><br/>
+    1.2 Task 데이터 타입에 필수적으로 들어가야할 필드: id, 할일의 제목, 할일 완료 여부 예시 (변수 명은 자유)<br/><br/>
+    1.3 [필수] 적절한 Header를 만든다.<br/><br/>
+    1.4 [필수] 투두리스트에 적합한 기능을 구현하기 위해 데이터를 조작할 수 있다.<br/><br/>
+    1.5 [필수] 스크롤시 Header가 사라지지 않고 화면 상단에 고정되도록 한다.<br/><br/>
+    1.6 [필수] 필수적으로 추가해야할 기능: Task 목록 조회, 새로운 Task 추가, Task 삭제<br/><br/>
+    1.7 [필수] 투두리스트에 적절한 애니메이션을 추가할 수 있다.<br/><br/>
+    1.8 [필수] Drag and Drop으로 Task의 순서를 변경한다.<br/><br/>
+    1.9 데이터를 변경하지 않고 화면 내에서 Task의 순서만 변경되면 됨<br/><br/>
+    1.10 [선택] 필수 구현 항목에 덧붙여 필요한 데이터 속성을 추가하여 정의할 수 있다<br/><br/>
+    1.11 [선택] 최소 요구사항에 덧붙여 구현하고 싶은 기능이 있으면 추가적으로 구현.<br/><br/>
+    1.12 [선택] 최소 요구사항에 덧붙여 추가하고 싶은 UI/UX 및 애니매이션을 추가적으로 구현.<br/><br/>
+  </div>
+</details>
+<br/>
+<details>
+  <summary>
+    <STRONG>
+       📚 과제 B: To-Do List App 만들기 (Data) 세부 가이드 보기
+    <STRONG>
+  </summary>
+  <div markdown="1">
+    <h3>세부 가이드</h3><br/>
+    1.1 투두리스트에 적합한 데이터를 구성할 수 있다.<br/><br/>
+    1.2 Task 데이터 타입에 필수적으로 들어가야할 필드: id, 할일의 제목, 할일의 상태(최소 3가지 이상의 상태), 생성일, 업데이트일(상태변경일)<br/><br/>
+    1.3 [필수] 투두리스트에 적합한 기능을 구현하기 위해 데이터를 조작할 수 있다. <br/><br/>
+    1.4 [필수] 필수 기능: Task 목록 조회, 새로운 Task 추가, Task삭제<br/><br/>
+    1.5 [필수] [필수] 최소 두가지 이상의 조건으로 Task를 필터링 (ex. 상태, 생성일, 생성자, 중요도)<br/><br/>
+    1.6 [필수] Task의 상태 변경 (ex. 진행중 → 완료)<br/><br/>
+    1.7 [선택] 최소 요구사항에 덧붙여 필요한 데이터 속성을 추가하여 정의할 수 있다<br/><br/>
+    1.8 [선택] 최소 요구사항에 덧붙여 구현하고 싶은 기능이 있으면 추가적으로 구현.<br/><br/>
+    1.9 [선택] 최소 요구사항에 덧붙여 추가하고 싶은 투두리스트에 적절한 UI/UX를 추가할 수 있다.<br/><br/>
+  </div>
+</details>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 🚀 배포
 
-### `yarn test`
+Demo Link: https://www.moduparking.com/
+<br/><br/>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🗂 구현 목록
+      
 
-### `yarn build`
+`Task생성, 수정, 삭제`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- 내용, 완료목표일 설정 후 Task 생성 
+- 별도의 버튼 클릭 없이 작성된 텍스트 클릭시 Task수정가능
+- 휴지통 모양의 아이콘을 클릭 시 해당id에 맞는 Task가 삭제
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+`Task 조회(필터링)`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- 설정된 Task의 상태(Todo, Doing, Done)에 따른 필터링
+- 작성된 날짜 순서에 따라 필터링
+- 설정된 Task의 중요도에 따른 필터링
+- 각 필터링은 중복조건에도 조회가 가능
+    
+`Task 상태 및 중요도`
 
-### `yarn eject`
+- Task의 상태는 총 3가지로 분류(Todo, Doing, Done)
+- Task의 상태별로 색상변화
+- Task의 중요도는 boolean타입이며, true일 경우 filledStar 아이콘이 렌더링됨
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+`생성일, 업데이트일, 완료목표일`
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Task가 처음 생성될 때 생성일이 localStorage에 저장
+- Task가 수정될 때 업데이트일이 localStorage에 저장
+- DatePicker를 이용하여 dueDate를 설정 가능
+    
+`Task Item Drag & Drop`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- 작성요망
+- 작성요망
+- 작성요망
+    
+<br/><br/>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 💁🏻‍♂ 실행 방법
 
-## Learn More
+### 설치
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+`npm install`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 실행
 
-### Code Splitting
+`npm start`
+<br/><br/>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 😀 멤버
 
-### Analyzing the Bundle Size
+| 이름   | 담당                     |
+| ----- | ------------------------|
+| 김민기 | Task생성, 수정, 삭제 |
+| 김은태 | Task상태값 설정, 중요도 설정 |
+| 김효진 | Task 조회 기능 |
+| 이시형 | Task Drag&Drop 기능 |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+<br/><br/>
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 📄 참고 자료
