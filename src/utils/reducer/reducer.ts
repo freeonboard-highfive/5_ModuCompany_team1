@@ -9,7 +9,7 @@ const reducer = (
   action: Action,
 ): TodoType[] => {
   switch (action.type) {
-    case 'LOAD':
+    case 'SET':
       return [...action.todoState];
     case 'ADD':
       return state.concat({

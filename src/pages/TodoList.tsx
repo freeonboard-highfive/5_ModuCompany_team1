@@ -10,7 +10,7 @@ const TodoList: React.FC = () => {
 
   const loadData = useCallback((): void => {
     const loadedTodos = loadLocalStorage();
-    dispatch({ type: 'LOAD', todoState: loadedTodos });
+    dispatch({ type: 'SET', todoState: loadedTodos });
   }, [dispatch]);
 
   useEffect(() => {
