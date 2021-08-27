@@ -6,6 +6,7 @@ import Arrow from '../../assets/Arrow';
 import { STATUS } from 'src/utils/constants';
 import Check from 'src/assets/Check';
 import { getDateString } from 'src/utils/getDateString';
+import { ExampleCustomInput } from '../datePicker/DatePickerButton';
 
 const statusList = [STATUS.NOT_STARTED, STATUS.ONGOING, STATUS.FINISHED];
 
@@ -49,12 +50,6 @@ const TodoHeader: React.FC = () => {
 
     setTodoStatus(value);
   };
-
-  const ExampleCustomInput = forwardRef(({ value, onClick }: any, ref: any) => (
-    <DatePickerButton type="button" onClick={onClick} ref={ref}>
-      {value ? value : 'None'}
-    </DatePickerButton>
-  ));
 
   return (
     <HeaderContainer>
@@ -109,7 +104,7 @@ const TodoHeader: React.FC = () => {
         </InputContainer>
         <SubmitContainer>
           {isFocused && (
-            <CloseButton onClick={() => setIsFocused(false)}>X</CloseButton>
+            <CloseButton onClick={() => setIsFocused(false)}>✕</CloseButton>
           )}
           <TodoSubmit>
             <Arrow />
@@ -133,10 +128,12 @@ const TodoForm = styled.form`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f1f4fc;
-  border-radius: 10px;
   padding: 10px 20px;
-  box-shadow: 10px 10px 20px #cdcfd6, -10px -10px 20px #ffffff;
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 12px;
+  border: 1px solid rgba(209, 213, 219, 0.3);
 `;
 
 const InputContainer = styled.div`
@@ -182,19 +179,6 @@ const SubInputs = styled.div`
   }
 `;
 
-const DatePickerButton = styled.button`
-  border: none;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  color: #223358;
-  height: 27px;
-  width: 60%;
-  border-radius: 5px;
-  font-size: 14px;
-  text-align: center;
-`;
-
 const Buttons = styled.div`
   display: flex;
   box-sizing: border-box;
@@ -236,11 +220,23 @@ const SubmitContainer = styled.div`
 `;
 
 const CloseButton = styled.button`
+  all: unset;
   position: absolute;
-  top: 20px;
-  right: 40px;
-  border: none;
-  background: none;
+  align-items: center;
+  top: 10px;
+  right: 10px;
+  font-weight: 900;
+  background-color: tomato;
+  color: tomato;
+  font-size: 8px;
+  text-align: center;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  cursor: pointer;
+  &:hover {
+    color: brown;
+  }
 `;
 
 const TodoSubmit = styled.button`
