@@ -9,12 +9,12 @@ interface TodoItemProps {
   }
 
 const Important = ({ todo }: TodoItemProps) => {
-    const [isImportant, setIsImportant] = useState<boolean>(false);
+    // const [isImportant, setIsImportant] = useState<boolean>(false);
     const dispatch = useDispatch();
 
     const handleImportant = (event: React.MouseEvent<HTMLSpanElement>): void => {
         dispatch({ type: 'EDIT', id: todo.id, name: TODO_KEYS.isImportant, value: !todo.isImportant, });
-        setIsImportant(!isImportant)
+        // setIsImportant(!isImportant)
     }
 
     return (
